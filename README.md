@@ -1,10 +1,10 @@
 # GoodFood-Bot Usage
 
 ## API
-- [API列表] (https://app.swaggerhub.com/apis/kwchung/goodfood_test/1.0.0)
+- [API列表](https://app.swaggerhub.com/apis/kwchung/goodfood_test/1.0.0)
 
 ## 測試API
-- curl -d "message=這是一則給 #test-bot 而且來自於 *紅色巨鳥*.<https://www.google.com.tw>" -H "Content-Type: application/x-www-form-urlencoded" -X POST http://goodfood-beta.trunksys.com/message
+- curl -d "message=這是一則給 #test-bot 而且來自於 \*紅色巨鳥\*.\<https://www.google.com.tw\>" -H "Content-Type: application/x-www-form-urlencoded" -X POST http://goodfood-beta.trunksys.com/message
 
 ## 回傳資訊
 - {"ok": true}
@@ -12,7 +12,7 @@
 
 ## 其他
 - 目前只會傳到 #test-bot 裡
-- *裡面會是粗體字*
+- \***裡面會是粗體字**\*
 - <裡面會是網址>  用非網址會變文字
 
 <hr>
@@ -39,7 +39,7 @@ $ nvm install v8.9.1
 
 ## Create slack app and get token
 
-- [slack app網址] (https://api.slack.com/apps)
+- [slack app網址](https://api.slack.com/apps)
 - 點擊 Create New App ， 會導向 App 資訊頁
 - 展開 Add features and functionality
 - 點擊 Bots 新增一個機器人
@@ -72,7 +72,7 @@ $ cd goodfood_bot
 ## Modify port
 
 - 開啟 /bin/www
-- 修改
+- 修改你要的 port
 ```javascript
 const port = '1234'; // modify your port here
 ```
