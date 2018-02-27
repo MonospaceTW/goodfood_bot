@@ -4,7 +4,7 @@
 - [API列表](https://app.swaggerhub.com/apis/kwchung/goodfood_test/1.0.0)
 
 ## 測試API
-- curl -d "message=這是一則給 #test-bot 而且來自於 \*紅色巨鳥\*.\<https://www.google.com.tw\>" -H "Content-Type: application/x-www-form-urlencoded" -X POST http://goodfood-beta.trunksys.com/message
+- curl -d "message=這是一則給 #test-bot 而且來自於 \*紅色巨鳥\*.\<https://www.google.com.tw>" -H "Content-Type: application/x-www-form-urlencoded" -X POST http://goodfood-beta.trunksys.com/message
 
 ## 回傳資訊
 - {"ok": true}
