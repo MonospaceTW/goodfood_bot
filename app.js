@@ -3,10 +3,17 @@ const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const swaggerTools = require('swagger-tools');
+const swaggerDoc = require('./swagger.json');
 
 const postmsg = require('./routes/postmsg');
 
 const app = express();
+
+// create swagger ui
+swaggerTools.initializeMiddleware(swaggerDoc, (middleware) => {
+    app.use(middleware.swaggerUi());
+})
 
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
