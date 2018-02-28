@@ -3,4 +3,3 @@ config.json
 public
 rtm
 views
-routes/users.js
