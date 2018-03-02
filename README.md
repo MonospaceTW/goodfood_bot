@@ -96,21 +96,21 @@ $ nvm install v8.9.1
 
 ##### 解釋 ：
 
-Command 你的指令　|　如 /addform
-Request URL 指令被輸入時會傳送到哪邊　|　如https://example.com/slackapi/addform
+- Command 你的指令　|　如 /addform
+- Request URL 指令被輸入時會傳送到哪邊　|　如https://example.com/slackapi/addform
 (注意： 如 slack app 會發佈給其他人使用 ， Request URL 就必須為 https)
-Short Description 在 slack 輸入指令時會出現的文字說明　|　如 新增表單
-Usage Hint 輸入指令時可能要帶的參數　|　如 [enter form name]
+- Short Description 在 slack 輸入指令時會出現的文字說明　|　如 新增表單
+- Usage Hint 輸入指令時可能要帶的參數　|　如 [enter form name]
 
-指令範例 ： /addform first-form
-會呼叫並將 first-form POST 到 https://example.com/slackapi/addform
-在該 api 底下撰寫 addform 功能
+-指令範例 ： /addform first-form <br>
+會呼叫並將 first-form POST 到 https://example.com/slackapi/addform <br>
+在該 api 底下撰寫 addform 功能 <br>
 
 ##### 傳送與回傳
 
-指令發送時會 POST (application/x-www-form-urlencoded) 參數到該 api 底下
-指令為 ： /addform @mike you good look the url http://ccc.ccc #here
-參數會是
+指令發送時會 POST (application/x-www-form-urlencoded) 參數到該 api 底下 <br>
+指令為 ： /addform @mike you good look the url http://ccc.ccc #here <br>
+參數會是 
 ```
 token=your-app-token
 team_id=T0001
