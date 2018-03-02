@@ -97,12 +97,12 @@ $ nvm install v8.9.1
 ##### 解釋 ：
 
 - Command 你的指令　|　如 /addform
-- Request URL 指令被輸入時會傳送到哪邊　|　如https://example.com/slackapi/addform
+- Request URL 指令被輸入時會傳送到哪邊　|　如https://example.com/slackapi/addform <br>
 (注意： 如 slack app 會發佈給其他人使用 ， Request URL 就必須為 https)
 - Short Description 在 slack 輸入指令時會出現的文字說明　|　如 新增表單
 - Usage Hint 輸入指令時可能要帶的參數　|　如 [enter form name]
 
--指令範例 ： /addform first-form <br>
+指令範例 ： /addform first-form <br>
 會呼叫並將 first-form POST 到 https://example.com/slackapi/addform <br>
 在該 api 底下撰寫 addform 功能 <br>
 
@@ -131,7 +131,7 @@ trigger_id=13345224609.738474920.8088930838d88f008e0
 text=<@U012ABCDEF|mike> you good look the url <http://ccc.ccc> <#C012ABCDE|here>
 ```
 - your-app-token 是你的 app 資訊頁裡所看到的 Verification Token
-- 可以比對 your-app-token 與 Verification Token 如相同就確定是來自於 slack 指令所發送
+- 可以比對 your-app-token 與 Verification Token ， 如相同就確定是來自於 slack 指令所發送
 
 當處理完指令要回傳時可以回傳 ：
 - plain text ， 他就會單純的回一句話
