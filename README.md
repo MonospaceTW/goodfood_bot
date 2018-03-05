@@ -31,7 +31,7 @@ $ curl -d "message=這是一則給 #test-bot 而且來自於 \*紅色巨鳥\*.\<
 
 ### Test API
 
-- 在 #test-bot 聊天室裡輸入
+- 在任何聊天室裡輸入
 ```
 /cheese
 ```
@@ -45,10 +45,10 @@ $ curl -d "message=這是一則給 #test-bot 而且來自於 \*紅色巨鳥\*.\<
   每日占卜~
 ```
 
-bind 為測試綁定 goodfood 與 slack 帳號
-如成功會將 slack 帳號與輸入的帳號存在伺服器端
-用資料庫來比對是否已經綁定帳號
-unbind 會將輸入指令的人所綁定的帳號刪除
+bind 為測試綁定 goodfood 與 slack 帳號<br>
+如成功會將 slack 帳號與輸入的帳號存在伺服器端<br>
+用資料庫來比對是否已經綁定帳號<br>
+unbind 會將輸入指令的人所綁定的帳號刪除<br>
 
 <hr>
 
