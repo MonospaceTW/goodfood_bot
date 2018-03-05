@@ -26,6 +26,8 @@ $ curl -d "message=這是一則給 #test-bot 而且來自於 \*紅色巨鳥\*.\<
 ### Command
 
 - /cheese
+- /bind [your goodfood account]
+- /unbind
 
 ### Test API
 
@@ -42,6 +44,11 @@ $ curl -d "message=這是一則給 #test-bot 而且來自於 \*紅色巨鳥\*.\<
 [yourname]是最[ooxx]的人
   每日占卜~
 ```
+
+bind 為測試綁定 goodfood 與 slack 帳號
+如成功會將 slack 帳號與輸入的帳號存在伺服器端
+用資料庫來比對是否已經綁定帳號
+unbind 會將輸入指令的人所綁定的帳號刪除
 
 <hr>
 
@@ -91,7 +98,6 @@ $ nvm install v8.9.1
 - - Usage Hint ： 我的指令提示
 - - 勾勾不勾
 - 點擊 Save 儲存
-- 展開 Install your app to your workspace 並重新安裝 App 到你的 slack workplace
 - 撰寫 http://goodfood-beta.trunksys.com/slack/cheese 的 api 功能
 
 ##### 解釋 ：

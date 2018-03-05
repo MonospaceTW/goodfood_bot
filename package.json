@@ -1,5 +1,5 @@
 {
-    "name": "monospace-work-slask",
+    "name": "goodfood-bot",
     "version": "0.0.0",
     "private": true,
     "scripts": {
@@ -21,6 +21,7 @@
         "express": "~4.15.5",
         "morgan": "~1.9.0",
         "serve-favicon": "~2.4.5",
+        "sqlite3": "^3.1.13",
         "swagger-tools": "^0.10.3",
         "swagger-ui": "^3.11.0"
     }
