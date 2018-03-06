@@ -5,8 +5,24 @@
 
 ### Test API
 
+curl
 ```
-$ curl -d "message=這是一則給 #test-bot 而且來自於 \*紅色巨鳥\*.\<https://www.google.com.tw>" -H "Content-Type: application/x-www-form-urlencoded" -X POST http://goodfood-beta.trunksys.com/message
+$ curl -d "message=這是一則給 #test-bot 而且來自於 \*紅色巨鳥\*.\<https://www.google.com.tw>" -H "Content-Type: application/x-www-form-urlencoded" -H "Authorization: test" -X POST http://goodfood-beta.trunksys.com/message
+```
+
+axios
+```javascript
+this.$axios({
+    method: 'post',
+    url: 'http://goodfood-beta.trunksys.com/message',
+    data: { message: '\*test\* slack api' },
+    headers: {'Authorization': 'test'},
+}).then(function (response) {
+    console.log(response.data);  // {ok: true} will print
+})
+.catch(function (error) {
+    console.log(error);
+});
 ```
 
 ### Response
@@ -16,8 +32,10 @@ $ curl -d "message=這是一則給 #test-bot 而且來自於 \*紅色巨鳥\*.\<
 
 ### Other
 
+- 需要授權才能發話 ， 如 header 裡的 "Authorization: test"
+- 如何取得授權參考下面 Command 項目
 - 目前只會傳到 #test-bot 裡
-- message中有下面兩點可以套用
+- message 中有多種文字格式可以套用，參考下面二例
 - \***裡面會是粗體字**\*
 - <裡面會是網址>  用非網址文字會變箭頭括號包起來的文字
 

@@ -1,6 +1,7 @@
 const { WebClient } = require('@slack/client');
 const fs = require('fs');
 const express = require('express');
+const SqliteDb = require('./sqlite/sqlitedb');
 
 // get slack bot token
 const contents = fs.readFileSync('config.json');
@@ -10,6 +11,7 @@ const token = jsonContent.bot_token;
 const web = new WebClient(token);
 const router = express.Router();
 
+const db = new SqliteDb();
 const to = '#test-bot';
 const attach = {
     username: 'goodfood_bot',
@@ -17,12 +19,25 @@ const attach = {
 };
 
 router.post('/', (req, res, next) => {
-    web.chat.postMessage(to, req.body.message, attach).then((result) => {
-        if (result.ok) {
-            console.log(`send message: ${result.message.text}`);
-            res.setHeader('Content-Type', 'application/json');
+    const goodname = req.header('Authorization');
+    const row = db.read(`SELECT goodfood FROM Bind WHERE goodfood = '${goodname}'`);
+    row.then((col) => {
+        if (col.length > 0) {
+            web.chat.postMessage(to, req.body.message, attach).then((result) => {
+                if (result.ok) {
+                    // console.log(`send message: ${result.message.text}`);
+                    res.setHeader('Content-Type', 'application/json');
+                    res.setHeader('Access-Control-Allow-Origin', '*');
+                    res.send(JSON.stringify({ ok: true }));
+                    res.end();
+                }
+            });
+        } else {
             res.setHeader('Access-Control-Allow-Origin', '*');
-            res.send(JSON.stringify({ ok: true }));
+            res.status(401);
+            res.setHeader('Content-Type', 'application/json');
+            res.send(JSON.stringify({ ok: false }));
+            res.end();
         }
     });
 });
