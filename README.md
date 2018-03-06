@@ -7,7 +7,7 @@
 
 curl
 ```
-$ curl -d "message=這是一則給 #test-bot 而且來自於 \*紅色巨鳥\*.\<https://www.google.com.tw>" -H "Content-Type: application/x-www-form-urlencoded" -H "Authorization: test" -X POST http://goodfood-beta.trunksys.com/message
+$ curl -d "message=這是一則給 #test-bot 而且來自於 *紅色巨鳥*.<https://www.google.com.tw>" -H "Content-Type: application/x-www-form-urlencoded" -H "Authorization: test" -X POST http://goodfood-beta.trunksys.com/message
 ```
 
 axios
@@ -15,7 +15,7 @@ axios
 this.$axios({
     method: 'post',
     url: 'http://goodfood-beta.trunksys.com/message',
-    data: { message: '\*test\* slack api' },
+    data: { message: '*test* slack api' },
     headers: {'Authorization': 'test'},
 }).then(function (response) {
     console.log(response.data);  // {ok: true} will print
