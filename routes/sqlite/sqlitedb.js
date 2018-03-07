@@ -8,20 +8,22 @@ module.exports = class SqliteDb {
         });
     }
 
-    read(str) {
+    read(str, ...values) {
         return new Promise((reslove, reject) => {
             this.db.serialize(() => {
-                this.db.all(str, (err, row) => {
+                const select = this.db.prepare(str);
+                select.all(...values, (err, row) => {
                     reslove(row);
                 });
+                select.finalize();
             });
         });
     }
 
-    run(str) {
+    run(str, ...values) {
         this.db.serialize(() => {
             const query = this.db.prepare(str);
-            query.run();
+            query.run(...values);
             query.finalize();
         });
     }

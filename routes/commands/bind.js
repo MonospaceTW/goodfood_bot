@@ -9,10 +9,10 @@ router.post('/', (req, res, next) => {
     response.response_type = 'ephemeral';
     // check if send from slack
     if (req.body.token === 'S3Kizw5s0LYgspz80RutJFxH') {
-        const row = db.read(`SELECT goodfood FROM Bind WHERE slack = '${req.body.user_name}'`);
+        const row = db.read('SELECT goodfood FROM Bind WHERE slack = ?', `${req.body.user_name}`);
         row.then((col) => {
             if (col.length === 0) {
-                db.run(`INSERT INTO Bind VALUES ('${req.body.user_name}', '${req.body.text}')`);
+                db.run('INSERT INTO Bind VALUES (?, ?)', `${req.body.user_name}`, `${req.body.text}`);
                 response.text = `成功和 goodfood 帳號 ${req.body.text} 綁定，輸入 /unbind 可以取消綁定`;
             } else {
                 response.text = `綁定失敗，您已經與 goodfood 帳號 ${col[0].goodfood} 做綁定，輸入 /unbind 可以取消綁定`;

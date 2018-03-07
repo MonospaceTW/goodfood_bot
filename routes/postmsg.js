@@ -20,7 +20,7 @@ const attach = {
 
 router.post('/', (req, res, next) => {
     const goodname = req.header('Authorization');
-    const row = db.read(`SELECT goodfood FROM Bind WHERE goodfood = '${goodname}'`);
+    const row = db.read('SELECT goodfood FROM Bind WHERE goodfood = ?', `${goodname}`);
     row.then((col) => {
         if (col.length > 0) {
             web.chat.postMessage(to, req.body.message, attach).then((result) => {
