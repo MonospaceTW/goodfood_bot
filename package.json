@@ -21,7 +21,10 @@
         "express": "~4.15.5",
         "morgan": "~1.9.0",
         "serve-favicon": "~2.4.5",
+<<<<<<< HEAD
         "sqlite3": "^3.1.13",
+=======
+>>>>>>> origin/ckw
         "swagger-tools": "^0.10.3",
         "swagger-ui": "^3.11.0"
     }
