@@ -50,8 +50,11 @@
                             "$ref": "#/definitions/Message"
                         }
                     },
-                    "401":{
+                    "401": {
                         "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "not found"
                     }
                 }
             }
