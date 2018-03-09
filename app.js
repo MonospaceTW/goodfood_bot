@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 
 const postmsg = require('./routes/postmsg');
 const swagger = require('./routes/swagger');
+const slack = require('./routes/slack');
 
 const app = express();
 
@@ -17,8 +18,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/', swagger);
 app.use('/message', postmsg);
-app.use(swagger);
+app.use('/slack', slack);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -34,7 +36,7 @@ app.use((err, req, res, next) => {
     res.locals.error = req.app.get('env') === 'development' ? err : {};
 
     // render the error page
-    res.status(err.status || 500);
+    res.status(err.status || 402);
     res.send(JSON.stringify({ ok: false }));
 });
 
