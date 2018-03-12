@@ -25,6 +25,13 @@ this.$axios({
 });
 ```
 
+### Parameters
+
+- message ： [Message to post] **required**
+- channel ： [Channel to post] **optional**
+- botname ： [Botname to show] **optional**
+- iconurl ： [Iconurl to show] **optional**
+
 ### Response
 
 - {"ok": true}
@@ -219,3 +226,22 @@ const port = '1234'; // modify your port here
 $ npm install
 $ npm start
 ```
+
+## Add Swagger UI in to Project
+1. Install `swagger-ui` nad `swagger-tools`
+```
+$ npm install swagger-ui
+$ npm install swagger-tools
+```
+2. 在根目錄建立 `swagger.json`（可參考[範例](http://petstore.swagger.io/v2/swagger.json)）
+3. 在 app.js 加入 swagger
+```javascript
+// app.js
+const swaggerTools = require('swagger-tools');
+const swaggerDoc = require('./swagger.json');
+
+swaggerTools.initializeMiddleware(swaggerDoc, (middleware) => {
+    app.use(middleware.swaggerUi());
+})
+```
+4. 在 `http://yourdomain/docs` 開啟 swagger ui

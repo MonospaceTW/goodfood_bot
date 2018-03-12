@@ -29,6 +29,11 @@
                 "consumes": [
                     "application/x-www-form-urlencoded"
                 ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
                 "parameters": [
                     {
                         "name": "message",
@@ -44,6 +49,12 @@
                         "schema": {
                             "$ref": "#/definitions/Message"
                         }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "not found"
                     }
                 }
             }
@@ -57,6 +68,13 @@
                     "type": "boolean"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "api_key": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "Authorization"
         }
     },
     "host": "goodfood-beta.trunksys.com",
