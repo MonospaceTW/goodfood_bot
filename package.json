@@ -1,0 +1,30 @@
+{
+    "name": "goodfood-bot",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+        "start": "nodemon ./bin/www"
+    },
+    "devDependencies": {
+        "eslint": "^4.16.0",
+        "eslint-config-airbnb-base": "^12.1.0",
+        "eslint-plugin-import": "^2.8.0",
+        "jest": "^22.1.4",
+        "jest-cli": "^21.2.0",
+        "nodemon": "^1.17.1"
+    },
+    "dependencies": {
+        "@octokit/rest": "^15.1.8",
+        "@slack/client": "^3.15.0",
+        "body-parser": "~1.18.2",
+        "cookie-parser": "~1.4.3",
+        "debug": "~2.6.9",
+        "ejs": "~2.5.7",
+        "express": "~4.15.5",
+        "morgan": "~1.9.0",
+        "serve-favicon": "~2.4.5",
+        "sqlite3": "^3.1.13",
+        "swagger-tools": "^0.10.3",
+        "swagger-ui": "^3.11.0"
+    }
+}
