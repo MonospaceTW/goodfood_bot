@@ -12,25 +12,27 @@ const web = new WebClient(token);
 const router = express.Router();
 
 const db = new SqliteDb();
-const to = '#test-bot';
-const attach = {
-    username: 'goodfood_bot',
-    icon_url: 'https://www.osustuff.org/img/avatars/2017-04-22/211652.jpg',
-};
+const attach = {};
 
 router.post('/', (req, res, next) => {
+    const to = req.body.channel ? req.body.channel : '#test-bot';
+    attach.username = req.body.botname ? req.body.botname : 'goodfood_bot';
+    attach.icon_url = req.body.iconurl ? req.body.iconurl : 'http://goodfood-beta.trunksys.com/images/sushi.jpg';
     const goodname = req.header('Authorization');
     const row = db.read('SELECT goodfood FROM Bind WHERE goodfood = ?', `${goodname}`);
     row.then((col) => {
         if (col.length > 0) {
+            res.setHeader('Content-Type', 'application/json');
+            res.setHeader('Access-Control-Allow-Origin', '*');
             web.chat.postMessage(to, req.body.message, attach).then((result) => {
                 if (result.ok) {
-                    // console.log(`send message: ${result.message.text}`);
-                    res.setHeader('Content-Type', 'application/json');
-                    res.setHeader('Access-Control-Allow-Origin', '*');
                     res.send(JSON.stringify({ ok: true }));
                     res.end();
                 }
+            }).catch(() => {
+                res.status(400);
+                res.send(JSON.stringify({ ok: false }));
+                res.end();
             });
         } else {
             res.setHeader('Access-Control-Allow-Origin', '*');

@@ -25,6 +25,13 @@ this.$axios({
 });
 ```
 
+### Parameters
+
+- message ： [Message to post] **required**
+- channel ： [Channel to post] **optional**
+- botname ： [Botname to show] **optional**
+- iconurl ： [Iconurl to show] **optional**
+
 ### Response
 
 - {"ok": true}
