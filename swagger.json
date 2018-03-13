@@ -22,7 +22,7 @@
                     "message"
                 ],
                 "summary": "post message",
-                "description": "發送訊息到 Slack 頻道（預設為 Monospace 的 `#test-bot`）。",
+                "description": "發送訊息到 Slack（Monospace）。",
                 "produces": [
                     "application/json"
                 ],
@@ -40,7 +40,25 @@
                         "in": "formData",
                         "required": true,
                         "type": "string",
-                        "description": "請使用`x-www-form-urlencoded`來傳資料。"
+                        "description": "請使用 `x-www-form-urlencoded` 來傳資料。"
+                    },{
+                        "name": "channel",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string",
+                        "description": "指定傳送的頻道，若不填預設為 `#test_bot`。"
+                    },{
+                        "name": "botname",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string",
+                        "description": "指定 bot 名稱，若不填預設為 goodfood_bot。"
+                    },{
+                        "name": "iconurl",
+                        "in": "formData",
+                        "required": false,
+                        "type": "string",
+                        "description": "指定 bot 大頭貼名稱，若不填預設為 http://goodfood-beta.trunksys.com/images/sushi.jpg"
                     }
                 ],
                 "responses": {
@@ -50,11 +68,14 @@
                             "$ref": "#/definitions/Message"
                         }
                     },
+                    "400": {
+                        "description": "Parameters Error"
+                    },
                     "401": {
                         "description": "Unauthorized"
                     },
                     "404": {
-                        "description": "not found"
+                        "description": "Not Found"
                     }
                 }
             }
