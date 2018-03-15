@@ -5,6 +5,7 @@ module.exports = class SqliteDb {
         this.db = new sqlite3.Database('./routes/sqlite/bind.db');
         this.db.serialize(() => {
             this.db.run('CREATE TABLE IF NOT EXISTS Bind (slack TEXT, goodfood TEXT)');
+            this.db.run('CREATE TABLE IF NOT EXISTS GitHub (slack TEXT, github TEXT)');
         });
     }
 
