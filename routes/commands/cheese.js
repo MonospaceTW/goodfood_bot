@@ -1,10 +1,7 @@
 const express = require('express');
-const fs = require('fs');
+const SLACK = require('../../config/slack.json');
 
-// get app verification_token
-const contents = fs.readFileSync('config.json');
-const jsonContent = JSON.parse(contents);
-const token = jsonContent.verification_token;
+const token = SLACK.VERIFICATION_TOKEN;
 
 const router = express.Router();
 const str = ['可愛', '性感', '斂財', '白癡', '帥氣', '囂張', '聰明', '無言', '中二', '嘴砲', '快', '慢', '奇葩'];

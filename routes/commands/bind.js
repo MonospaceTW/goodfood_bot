@@ -1,11 +1,8 @@
 const express = require('express');
-const fs = require('fs');
 const SqliteDb = require('../sqlite/sqlitedb');
+const SLACK = require('../../config/slack.json');
 
-// get app verification_token
-const contents = fs.readFileSync('config.json');
-const jsonContent = JSON.parse(contents);
-const token = jsonContent.verification_token;
+const token = SLACK.VERIFICATION_TOKEN;
 
 const router = express.Router();
 const db = new SqliteDb();

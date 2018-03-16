@@ -1,6 +1,8 @@
 node_modules
 config.json
 config
+slack.json
+github.json
 leveldb
 public
 rtm
