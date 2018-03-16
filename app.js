@@ -8,6 +8,7 @@ const postmsg = require('./routes/postmsg');
 const swagger = require('./routes/swagger');
 const slack = require('./routes/slack');
 const github = require('./routes/github');
+const oauth = require('./routes/oauth');
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use('/', swagger);
 app.use('/message', postmsg);
 app.use('/slack', slack);
 app.use('/github', github);
+app.use('/oauth', oauth);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -32,7 +34,7 @@ app.use((req, res, next) => {
 });
 
 // error handler
-app.use((err, req, res) => {
+app.use((err, req, res, next) => {
     // set locals, only providing error in development
     res.locals.message = err.message;
     res.locals.error = req.app.get('env') === 'development' ? err : {};

@@ -29,6 +29,7 @@ this.$axios({
 
 - message ： [Message to post] **required**
 - channel ： [Channel to post] **optional**
+  有四種 ： '#channel-name' ／ 'channelId' 、 '@user-name(not-display-name)' ／ 'user-id' 
 - botname ： [Botname to show] **optional**
 - iconurl ： [Iconurl to show] **optional**
 

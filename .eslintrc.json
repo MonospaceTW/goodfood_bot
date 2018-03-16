@@ -15,7 +15,8 @@
                 "FunctionExpression": false
             }
         }],
-        "no-console" :  "warn"
+        "no-console" :  "warn",
+        "no-param-reassign": ["error", { "props": false }]
     },
     "parserOptions":
     {

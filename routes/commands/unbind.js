@@ -1,5 +1,11 @@
 const express = require('express');
+const fs = require('fs');
 const SqliteDb = require('../sqlite/sqlitedb');
+
+// get app verification_token
+const contents = fs.readFileSync('config.json');
+const jsonContent = JSON.parse(contents);
+const token = jsonContent.verification_token;
 
 const router = express.Router();
 const db = new SqliteDb();
@@ -8,7 +14,7 @@ router.post('/', (req, res, next) => {
     const response = {};
     response.response_type = 'ephemeral';
     // check if send from slack
-    if (req.body.token === 'S3Kizw5s0LYgspz80RutJFxH') {
+    if (req.body.token === token) {
         const row = db.read('SELECT goodfood FROM Bind WHERE slack = ?', `${req.body.user_name}`);
         row.then((col) => {
             if (col.length === 0) {
