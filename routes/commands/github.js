@@ -1,7 +1,7 @@
 const express = require('express');
 const axios = require('axios');
 
-const CONFIG_SLACK = require('../../config.json');
+const CONFIG_SLACK = require('../../config/slack.json');
 const CONFIG_GITHUB = require('../../config/github.json');
 const db = require('../../leveldb');
 
@@ -9,7 +9,7 @@ const router = express.Router();
 
 // connect to github account
 router.post('/connect', (req, res) => {
-    if (req.body.token !== CONFIG_SLACK.verification_token) {
+    if (req.body.token !== CONFIG_SLACK.VERIFICATION_TOKEN) {
         res.status(403).end('Access Forbidden');
     } else {
         const { user_id } = req.body;
@@ -40,7 +40,7 @@ router.post('/connect', (req, res) => {
                                                 value: 'connect',
                                                 style: 'primary',
                                                 url: 'https://github.com/login/oauth/authorize' +
-                                                    `?client_id=${CONFIG_GITHUB.client_id}` +
+                                                    `?CLIENT_ID=${CONFIG_GITHUB.CLIENT_ID}` +
                                                     '&scope=user%20repo' +
                                                     `&state=${user_id}`,
                                             },
@@ -59,7 +59,7 @@ router.post('/connect', (req, res) => {
 
 // create issue
 router.post('/issue', (req, res) => {
-    if (req.body.token !== CONFIG_SLACK.verification_token) {
+    if (req.body.token !== CONFIG_SLACK.VERIFICATION_TOKEN) {
         res.status(403).end('Access Forbidden');
     } else {
         const { user_id, text } = req.body;
@@ -103,7 +103,7 @@ router.post('/issue', (req, res) => {
                                     value: 'connect',
                                     style: 'primary',
                                     url: 'https://github.com/login/oauth/authorize' +
-                                        `?client_id=${CONFIG_GITHUB.client_id}` +
+                                        `?CLIENT_ID=${CONFIG_GITHUB.CLIENT_ID}` +
                                         '&scope=user%20repo' +
                                         `&state=${user_id}`,
                                 },

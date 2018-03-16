@@ -206,7 +206,7 @@ $ cd goodfood_bot
 - 輸入
 ```json
 {
-    "bot_token" : "your-bot-token"
+    "BOT_TOKEN" : "your-bot-token"
 }
 ```
 - 存檔退出

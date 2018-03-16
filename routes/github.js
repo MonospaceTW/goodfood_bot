@@ -9,8 +9,8 @@ const router = express.Router();
 // Handle GitHub OAuth callback
 router.get('/authorize', (req, res) => {
     axios.post('https://github.com/login/oauth/access_token', {
-        client_id: CONFIG_GITHUB.client_id,
-        client_secret: CONFIG_GITHUB.client_secret,
+        CLIENT_ID: CONFIG_GITHUB.CLIENT_ID,
+        CLIENT_SECRET: CONFIG_GITHUB.CLIENT_SECRET,
         code: req.query.code,
     }, {
         headers: {
