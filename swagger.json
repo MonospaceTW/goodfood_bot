@@ -1,0 +1,85 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Goodfood API",
+        "description": "",
+        "license": {
+            "name": "MIT",
+            "url": "http://opensource.org/licenses/MIT"
+        }
+    },
+    "tags": [
+        {
+            "name": "message",
+            "description": "Everything about message"
+        }
+    ],
+    "paths": {
+        "/message": {
+            "post": {
+                "tags": [
+                    "message"
+                ],
+                "summary": "post message",
+                "description": "發送訊息到 Slack 頻道（預設為 Monospace 的 `#test-bot`）。",
+                "produces": [
+                    "application/json"
+                ],
+                "consumes": [
+                    "application/x-www-form-urlencoded"
+                ],
+                "security": [
+                    {
+                        "api_key": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "message",
+                        "in": "formData",
+                        "required": true,
+                        "type": "string",
+                        "description": "請使用`x-www-form-urlencoded`來傳資料。"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/Message"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "404": {
+                        "description": "not found"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Message": {
+            "type": "object",
+            "properties": {
+                "ok": {
+                    "type": "boolean"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "api_key": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "Authorization"
+        }
+    },
+    "host": "goodfood-beta.trunksys.com",
+    "basePath": "/",
+    "schemes": [
+        "http"
+    ]
+}
