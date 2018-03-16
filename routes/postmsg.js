@@ -1,12 +1,10 @@
 const { WebClient } = require('@slack/client');
-const fs = require('fs');
 const express = require('express');
 const SqliteDb = require('./sqlite/sqlitedb');
+const CONFIG_SLACK = require('../config/slack.json');
 
 // get slack bot token
-const contents = fs.readFileSync('config.json');
-const jsonContent = JSON.parse(contents);
-const token = jsonContent.bot_token;
+const token = CONFIG_SLACK.BOT_TOKEN;
 
 const web = new WebClient(token);
 const router = express.Router();
