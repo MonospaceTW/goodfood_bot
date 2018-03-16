@@ -1,28 +1,28 @@
 const express = require('express');
-const octokit = require('@octokit/rest')();
+const axios = require('axios');
+const CONFIG_GITHUB = require('../config/github.json');
+
+const db = require('../leveldb');
 
 const router = express.Router();
 
-router.post('/repos', async (req, res) => {
-    const result = await octokit.repos.getForOrg({
-        org: 'MonospaceTW',
-        type: 'all',
+// Handle GitHub OAuth callback
+router.get('/authorize', (req, res) => {
+    axios.post('https://github.com/login/oauth/access_token', {
+        client_id: CONFIG_GITHUB.client_id,
+        client_secret: CONFIG_GITHUB.client_secret,
+        code: req.query.code,
+    }, {
+        headers: {
+            Accept: 'application/json',
+        },
+    }).then((resp) => {
+        const user_id = req.query.state;
+        db.put(user_id, resp.data.access_token);
+        res.send('Successfully connect to your GitHub account, you could close this page.');
+    }).catch((err) => {
+        res.send(err);
     });
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(result.data));
-    res.end();
-});
-
-router.post('/issues/:repo', async (req, res) => {
-    const result = await octokit.issues.getForRepo({
-        owner: 'MonospaceTW',
-        repo: req.params.repo,
-    });
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify(result.data));
-    res.end();
 });
 
 module.exports = router;
