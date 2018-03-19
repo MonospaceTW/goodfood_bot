@@ -7,7 +7,7 @@ module.exports = (submission, user) => {
     } = submission;
 
     return new Promise((resolve, reject) => {
-        leveldb.get(user.id)
+        leveldb.get(`${user.id}_token`)
             .then((token) => {
                 axios.post(
                     `https://api.github.com/repos/${owner}/${repo}/issues`,

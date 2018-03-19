@@ -13,7 +13,7 @@ const router = express.Router();
 
 const hasConnectGitHub = (req, res, next) => {
     const { user_id } = req.body;
-    leveldb.get(user_id)
+    leveldb.get(`${user_id}_token`)
         .then((token) => {
             req.github_token = token;
             next();

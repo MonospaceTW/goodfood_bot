@@ -8,11 +8,27 @@ const router = express.Router();
 router.post('/', (req, res) => {
     const { user_id } = req.body;
     leveldb
-        .get(user_id)
+        .get(`${user_id}_token`)
         .then(() => {
             res.json({
                 response_type: 'ephemeral',
                 text: ':heavy_check_mark: You have already connected.',
+                username: 'GitHub - MonospaceTW',
+                icon_url: 'https://avatars3.githubusercontent.com/u/34531823?s=200&v=4',
+                attachments: [
+                    {
+                        callback_id: 'disconnect',
+                        actions: [
+                            {
+                                name: 'disconnect',
+                                text: 'Disconnect',
+                                type: 'button',
+                                value: 'disconnect',
+                                style: 'danger',
+                            },
+                        ],
+                    },
+                ],
             });
         })
         .catch((err) => {
@@ -20,6 +36,8 @@ router.post('/', (req, res) => {
                 res.setHeader('Content-Type', 'application/json');
                 res.json({
                     response_type: 'ephemeral',
+                    username: 'GitHub - MonospaceTW',
+                    icon_url: 'https://avatars3.githubusercontent.com/u/34531823?s=200&v=4',
                     attachments: [
                         {
                             color: '#27ae60',
@@ -34,9 +52,7 @@ router.post('/', (req, res) => {
                                     style: 'primary',
                                     url:
                                         'https://github.com/login/oauth/authorize' +
-                                        `?CLIENT_ID=${
-                                            CONFIG_GITHUB.CLIENT_ID
-                                        }` +
+                                        `?client_id=${CONFIG_GITHUB.CLIENT_ID}` +
                                         '&scope=user%20repo' +
                                         `&state=${user_id}`,
                                 },
