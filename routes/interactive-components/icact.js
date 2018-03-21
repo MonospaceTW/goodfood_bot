@@ -2,69 +2,25 @@ const { WebClient } = require('@slack/client');
 const express = require('express');
 const leveldb = require('../../leveldb');
 const SLACK = require('../../config/slack.json');
+const VIEW = require('../../config/view.json');
 
 const token = SLACK.BOT_TOKEN;
 
 const web = new WebClient(token);
 const router = express.Router();
 
-const dialog = {
-    callback_id: 'add_order',
-    title: '選擇餐點',
-    submit_label: 'Submit',
-    elements: [
-        {
-            label: '訂單列表',
-            name: 'order_list',
-            type: 'select',
-            placeholder: '選擇餐點',
-            options: [],
-        },
-        {
-            label: '數量',
-            name: 'num',
-            type: 'text',
-            subtype: 'number',
-            placeholder: '0',
-        },
-    ],
-};
-
-const btn = {
-    fallback: '你可以在 slack 點餐',
-    callback_id: 'button_click',
-    color: '#3AA3E3',
-    actions: [
-        {
-            name: 'clear',
-            text: '清除所有點餐',
-            type: 'button',
-            value: 'Y87G87',
-        },
-        {
-            name: 'order',
-            text: '新增點餐',
-            type: 'button',
-            value: 'Y87G87',
-        },
-        {
-            name: 'submit',
-            text: '送出點餐',
-            type: 'button',
-            value: 'Y87G87',
-        },
-    ],
-};
-
 router.post('/', (req, res, next) => {
     // parse payload
     const payload = JSON.parse(req.body.payload);
-    if (payload.callback_id === 'add_in') {
-        // 更新按鈕上的訂單編號
-        const orderId = payload.actions[0].value;
-        btn.actions.forEach((act) => {
-            act.value = orderId;
-        });
+    const callbacks = payload.callback_id.split('/');
+
+    if (callbacks[0] === 'add_in') {
+        // 更新call_back
+        const orderId = callbacks[1];
+        const btn = VIEW.three_btn;
+        btn.callback_id = `button_click/${orderId}`;
+
+        // 更新訊息
         web.chat.update(payload.message_ts, payload.channel.id, '', { attachments: [btn] }).then((result) => {
             if (result.ok) {
                 leveldb.get('order', (err, value) => {
@@ -73,8 +29,6 @@ router.post('/', (req, res, next) => {
                         tempJSON = JSON.parse(value);
                     }
                     tempJSON[orderId].list[payload.user.id] = {};
-                    tempJSON[orderId].list[payload.user.id].channelid = payload.channel.id;
-                    tempJSON[orderId].list[payload.user.id].mts = payload.message_ts;
                     tempJSON[orderId].list[payload.user.id].olist = [];
                     leveldb.put('order', JSON.stringify(tempJSON));
                     res.end();
@@ -86,12 +40,13 @@ router.post('/', (req, res, next) => {
     }
 
     // button_click happen
-    if (payload.callback_id === 'button_click') {
+    if (callbacks[0] === 'button_click') {
         // open dialog event
         if (payload.actions[0].name === 'order') {
             // add order list to the selecter of dialog in array
-            const displayDialog = JSON.parse(JSON.stringify(dialog));
-            displayDialog.elements[0].options = [
+            const dialog = VIEW.order_dialog;
+            dialog.callback_id = `add_order/${callbacks[1]}/${payload.message_ts}`;
+            dialog.elements[0].options = [
                 {
                     label: '大便當 $90',
                     value: 'id01',
@@ -114,15 +69,7 @@ router.post('/', (req, res, next) => {
                 },
             ];
 
-            // add order id to the top of dialog
-            displayDialog.elements.unshift({
-                label: '訂單編號',
-                name: 'order_id',
-                type: 'text',
-                value: 'Y87G87',
-            });
-
-            web.dialog.open(JSON.stringify(displayDialog), payload.trigger_id).then((result) => {
+            web.dialog.open(JSON.stringify(dialog), payload.trigger_id).then((result) => {
                 if (result.ok) {
                     res.end();
                 }
@@ -134,10 +81,10 @@ router.post('/', (req, res, next) => {
 
         // clear order list
         if (payload.actions[0].name === 'clear') {
-            const orderId = payload.actions[0].value;
-            btn.actions.forEach((act) => {
-                act.value = orderId;
-            });
+            const orderId = callbacks[1];
+            const btn = VIEW.three_btn;
+            btn.callback_id = `button_click/${orderId}`;
+
             leveldb.get('order', (err, value) => {
                 let tempJSON = {};
                 if (!err) {
@@ -164,11 +111,12 @@ router.post('/', (req, res, next) => {
     }
 
     // add order happen
-    if (payload.callback_id === 'add_order') {
-        const orderId = payload.submission.order_id;
-        btn.actions.forEach((act) => {
-            act.value = orderId;
-        });
+    if (callbacks[0] === 'add_order') {
+        const orderId = callbacks[1];
+        const timeStamp = callbacks[2];
+        const btn = VIEW.three_btn;
+        btn.callback_id = `button_click/${orderId}`;
+
         leveldb.get('order', (err, value) => {
             let tempJSON = {};
             if (!err) {
@@ -180,25 +128,25 @@ router.post('/', (req, res, next) => {
                 price: 200,
             });
             leveldb.put('order', JSON.stringify(tempJSON));
-            let aaa;
-            aaa = {
+            const orderText = {
                 text: '**訂單列表**',
                 color: '#123456',
                 fields: [],
             };
+
             tempJSON[orderId].list[payload.user.id].olist.forEach((food) => {
-                aaa.fields.push({
+                orderText.fields.push({
                     value: `${food.foodid} x ${food.num} = $${food.price}`,
                 });
             });
-            aaa.fields.push({
+            orderText.fields.push({
                 value: '總共：$320',
             });
-            aaa.fields.push({
+            orderText.fields.push({
                 title: '________________________',
             });
 
-            web.chat.update(tempJSON[orderId].list[payload.user.id].mts, payload.channel.id, '', { attachments: [aaa, btn] }).then((result) => {
+            web.chat.update(timeStamp, payload.channel.id, '', { attachments: [orderText, btn] }).then((result) => {
                 if (result.ok) {
                     res.end();
                 }
@@ -206,6 +154,10 @@ router.post('/', (req, res, next) => {
                 res.end();
             });
         });
+        res.end();
+    }
+
+    if (callbacks[0] === 'no_callback') {
         res.end();
     }
 });
