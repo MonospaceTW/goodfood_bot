@@ -1,6 +1,5 @@
 const express = require('express');
 const axios = require('axios');
-const qs = require('querystring');
 const { WebClient } = require('@slack/client');
 
 const CONFIG_SLACK = require('../../../config/slack.json');
@@ -60,32 +59,41 @@ router.post('/', (req, res) => {
     const repo = inputs[1];
     const title = inputs.slice(2, inputs.length).join(' ');
     const url = `https://api.github.com/repos/${owner}/${repo}/issues`;
-    axios
-        .post(
-            url,
-            { title },
-            {
-                headers: {
-                    Authorization: `Bearer ${req.github_token}`,
-                },
+    axios.post(
+        url,
+        { title },
+        {
+            headers: {
+                Authorization: `Bearer ${req.github_token}`,
             },
-        )
+        },
+    )
         .then(() => {
-            res.setHeader('Content-Type', 'application/json');
+            res.setHeader('Content-type', 'application/json');
             res.json({
                 text: ':heavy_check_mark: Issue opened successfully.',
             });
         })
         .catch(() => {
-            res.setHeader('Content-Type', 'application/json');
+            res.setHeader('Content-type', 'application/json');
             res.json({
                 text: ':warning: Error occured while opening issue.',
             });
         });
 });
 
-router.post('/dialog', (req, res) => {
+router.post('/dialog', async (req, res) => {
     const { trigger_id } = req.body;
+
+    const { data } = await axios.get(`https://api.github.com/orgs/${CONFIG_GITHUB.ORGANIZATION}/repos?type=public`);
+    const public_repos = data.sort((a, b) => {
+        return a.updated_at < b.updated_at;
+    }).map((e) => {
+        return {
+            value: e.name, label: e.name,
+        };
+    });
+
     const issueDialog = {
         title: 'Create an issue',
         callback_id: 'submit-issue',
@@ -96,9 +104,9 @@ router.post('/dialog', (req, res) => {
                 type: 'select',
                 name: 'owner',
                 placeholder: 'Select a owner',
-                value: 'MonospaceTW',
+                value: CONFIG_GITHUB.ORGANIZATION,
                 options: [
-                    { label: 'MonospaceTW', value: 'MonospaceTW' },
+                    { label: CONFIG_GITHUB.ORGANIZATION, value: CONFIG_GITHUB.ORGANIZATION },
                 ],
             },
             {
@@ -107,10 +115,7 @@ router.post('/dialog', (req, res) => {
                 name: 'repo',
                 placeholder: 'Select a repository',
                 value: 'goodfood',
-                options: [
-                    { label: 'goodfood', value: 'goodfood' },
-                    { label: 'goodfood_bot', value: 'goodfood_bot' },
-                ],
+                options: public_repos,
             },
             {
                 label: 'Title',
