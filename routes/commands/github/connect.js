@@ -1,4 +1,5 @@
 const express = require('express');
+const axios = require('axios');
 const leveldb = require('../../../leveldb');
 const CONFIG_GITHUB = require('../../../config/github.json');
 
@@ -9,16 +10,53 @@ router.post('/', (req, res) => {
     const { user_id } = req.body;
     leveldb
         .get(`${user_id}_token`)
-        .then(() => {
+        .then((access_token) => {
+            return axios.get('https://api.github.com/user', {
+                headers: {
+                    Authorization: `token ${access_token.toString()}`,
+                },
+            });
+        })
+        .then((resp) => {
+            const user = resp.data;
             res.json({
                 response_type: 'ephemeral',
-                text: ':heavy_check_mark: You have already connected.',
-                username: 'GitHub - MonospaceTW',
-                icon_url: 'https://avatars3.githubusercontent.com/u/34531823?s=200&v=4',
                 attachments: [
                     {
+                        pretext: `You have connected to ${user.login}.`,
+                        color: '#0E163B',
+                        author_name: `${user.login}`,
+                        author_icon: `${user.avatar_url}`,
+                        author_link: `${user.html_url}`,
                         callback_id: 'disconnect',
+                        fields: [
+                            {
+                                title: 'Name',
+                                value: `${user.name}`,
+                                short: true,
+                            },
+                            {
+                                title: 'Email',
+                                value: `${user.email}`,
+                                short: true,
+                            },
+                            {
+                                title: 'Company',
+                                value: `${user.company}`,
+                                short: true,
+                            },
+                            {
+                                title: 'Location',
+                                value: `${user.location}`,
+                                short: true,
+                            },
+                        ],
                         actions: [
+                            {
+                                text: 'Profile',
+                                type: 'button',
+                                url: `${user.html_url}`,
+                            },
                             {
                                 name: 'disconnect',
                                 text: 'Disconnect',
@@ -33,11 +71,8 @@ router.post('/', (req, res) => {
         })
         .catch((err) => {
             if (err.notFound) {
-                res.setHeader('Content-Type', 'application/json');
                 res.json({
                     response_type: 'ephemeral',
-                    username: 'GitHub - MonospaceTW',
-                    icon_url: 'https://avatars3.githubusercontent.com/u/34531823?s=200&v=4',
                     attachments: [
                         {
                             color: '#27ae60',
@@ -54,7 +89,7 @@ router.post('/', (req, res) => {
                                         'https://github.com/login/oauth/authorize' +
                                         `?client_id=${CONFIG_GITHUB.CLIENT_ID}` +
                                         '&scope=user%20repo' +
-                                        `&state=${user_id}`,
+                                        `&state=${user_id}/${req.body.channel_id}`,
                                 },
                             ],
                         },

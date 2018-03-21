@@ -31,8 +31,6 @@ router.post('/', (req, res) => {
                     channel.id,
                     `Issue opened by ${issue.user.login}`,
                     {
-                        username: 'GitHub - MonospaceTW',
-                        icon_url: 'https://avatars3.githubusercontent.com/u/34531823?s=200&v=4',
                         attachments: [{
                             color: '#0E163B',
                             author_name: `${issue.user.login}`,

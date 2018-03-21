@@ -9,7 +9,7 @@ router.post('/', (req, res) => {
         .then(() => {
             res.json({
                 response_type: 'ephemeral',
-                text: ':disappointed: You have disconnected.',
+                text: 'You have disconnected. :disappointed:',
             });
         }).catch((err) => {
             res.status(500).end(err);

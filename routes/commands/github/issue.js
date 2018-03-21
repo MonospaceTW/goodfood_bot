@@ -12,7 +12,8 @@ const router = express.Router();
 
 const hasConnectGitHub = (req, res, next) => {
     const { user_id } = req.body;
-    leveldb.get(`${user_id}_token`)
+    leveldb
+        .get(`${user_id}_token`)
         .then((token) => {
             req.github_token = token;
             next();
@@ -24,8 +25,7 @@ const hasConnectGitHub = (req, res, next) => {
                 attachments: [
                     {
                         color: '#27ae60',
-                        text:
-                            ":information_source: You haven't connect your GitHub account",
+                        text: ":information_source: You haven't connect your GitHub account",
                         callback_id: 'github_oauth',
                         actions: [
                             {
@@ -36,11 +36,9 @@ const hasConnectGitHub = (req, res, next) => {
                                 style: 'primary',
                                 url:
                                     'https://github.com/login/oauth/authorize' +
-                                    `?CLIENT_ID=${
-                                        CONFIG_GITHUB.CLIENT_ID
-                                    }` +
+                                    `?CLIENT_ID=${CONFIG_GITHUB.CLIENT_ID}` +
                                     '&scope=user%20repo' +
-                                    `&state=${user_id}`,
+                                    `&state=${user_id}/${req.body.channel_id}`,
                             },
                         ],
                     },
@@ -55,10 +53,9 @@ router.use('/', hasConnectGitHub);
 router.post('/', (req, res) => {
     const { text } = req.body;
     const inputs = text.split(' ');
-    const owner = inputs[0];
-    const repo = inputs[1];
+    const repo = inputs[0];
     const title = inputs.slice(2, inputs.length).join(' ');
-    const url = `https://api.github.com/repos/${owner}/${repo}/issues`;
+    const url = `https://api.github.com/repos/${CONFIG_GITHUB.ORGANIZATION}/${repo}/issues`;
     axios.post(
         url,
         { title },
@@ -86,13 +83,16 @@ router.post('/dialog', async (req, res) => {
     const { trigger_id } = req.body;
 
     const { data } = await axios.get(`https://api.github.com/orgs/${CONFIG_GITHUB.ORGANIZATION}/repos?type=public`);
-    const public_repos = data.sort((a, b) => {
-        return a.updated_at < b.updated_at;
-    }).map((e) => {
-        return {
-            value: e.name, label: e.name,
-        };
-    });
+    const public_repos = data
+        .sort((a, b) => {
+            return a.updated_at < b.updated_at;
+        })
+        .map((e) => {
+            return {
+                value: e.name,
+                label: e.name,
+            };
+        });
 
     const issueDialog = {
         title: 'Create an issue',
@@ -106,7 +106,10 @@ router.post('/dialog', async (req, res) => {
                 placeholder: 'Select a owner',
                 value: CONFIG_GITHUB.ORGANIZATION,
                 options: [
-                    { label: CONFIG_GITHUB.ORGANIZATION, value: CONFIG_GITHUB.ORGANIZATION },
+                    {
+                        label: CONFIG_GITHUB.ORGANIZATION,
+                        value: CONFIG_GITHUB.ORGANIZATION,
+                    },
                 ],
             },
             {
@@ -133,10 +136,12 @@ router.post('/dialog', async (req, res) => {
         ],
     };
 
-    web.dialog.open(JSON.stringify(issueDialog), trigger_id)
+    web.dialog
+        .open(JSON.stringify(issueDialog), trigger_id)
         .then(() => {
             res.status(200).end();
-        }).catch(() => {
+        })
+        .catch(() => {
             res.sendStatus(500);
         });
 });

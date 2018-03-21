@@ -25,16 +25,81 @@ router.get('/authorize', (req, res) => {
         },
     )
         .then((resp) => {
-            const user_id = req.query.state;
+            const user_id = req.query.state.split('/')[0];
             const { access_token } = resp.data;
-            return db.put(`${user_id}_token`, access_token);
+            return db.put(`${user_id}_token`, access_token).then(() => {
+                return db.get(`${user_id}_token`);
+            });
+        })
+        .then((access_token) => {
+            return axios.get('https://api.github.com/user', {
+                headers: {
+                    Authorization: `token ${access_token.toString()}`,
+                },
+            });
         })
         .then((resp) => {
-            const user_id = req.query.state;
-            return web.chat.postMessage(user_id, ':heavy_check_mark: You have already connected.');
+            const channel_id = req.query.state.split('/')[1];
+            const user = resp.data;
+            return web.chat.postMessage(
+                channel_id,
+                `You have connected to ${user.login}.`,
+                {
+                    response_type: 'ephemeral',
+                    attachments: [
+                        {
+                            color: '#0E163B',
+                            author_name: `${user.login}`,
+                            author_icon: `${user.avatar_url}`,
+                            author_link: `${user.html_url}`,
+                            callback_id: 'disconnect',
+                            fields: [
+                                {
+                                    title: 'Name',
+                                    value: `${user.name}`,
+                                    short: true,
+                                },
+                                {
+                                    title: 'Email',
+                                    value: `${user.email}`,
+                                    short: true,
+                                },
+                                {
+                                    title: 'Company',
+                                    value: `${user.company}`,
+                                    short: true,
+                                },
+                                {
+                                    title: 'Location',
+                                    value: `${user.location}`,
+                                    short: true,
+                                },
+                            ],
+                            actions: [
+                                {
+                                    text: 'Profile',
+                                    type: 'button',
+                                    url: `${user.html_url}`,
+                                },
+                                {
+                                    name: 'disconnect',
+                                    text: 'Disconnect',
+                                    type: 'button',
+                                    value: 'disconnect',
+                                    style: 'danger',
+                                },
+                            ],
+                        },
+                    ],
+                },
+            );
         })
         .then((resp) => {
-            res.send('<p>Successfully connect to your GitHub account, you could close this page.</p>');
+            if (resp.ok) {
+                res.send('<h1>Successfully connect to your GitHub account, you could close this page.</h1>');
+            } else {
+                res.statusCode(500).end(resp.error);
+            }
         })
         .catch((err) => {
             res.send(err);
