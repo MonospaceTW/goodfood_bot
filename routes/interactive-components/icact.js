@@ -20,8 +20,8 @@ router.post('/', (req, res, next) => {
         const btn = VIEW.three_btn;
         btn.callback_id = `button_click/${orderId}`;
 
-        // 更新訊息
-        web.chat.update(payload.message_ts, payload.channel.id, '', { attachments: [btn] }).then((result) => {
+        // 發送訊息
+        web.chat.postMessage(payload.user.id, '', { attachments: [btn] }).then((result) => {
             if (result.ok) {
                 leveldb.get('order', (err, value) => {
                     let tempJSON = {};
@@ -35,6 +35,7 @@ router.post('/', (req, res, next) => {
                 });
             }
         }).catch(() => {
+            res.status(400);
             res.end();
         });
     }

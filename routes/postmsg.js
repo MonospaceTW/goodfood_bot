@@ -17,24 +17,15 @@ router.post('/', (req, res, next) => {
 
     // 點餐按鈕
     if (req.body.attachments === 'yes') {
-        if (req.body.order_url) {
-            const link = VIEW.link_btn;
-            link.actions[0].url = req.body.order_url;
-            attach.attachments = [link];
+        const btn = VIEW.order_btn;
 
-            web.chat.postMessage(to, req.body.message, attach).then((result) => {
-                if (result.ok) {
-                    // res.send(JSON.stringify({ ok: true }));
-                }
-            }).catch(() => {
-                // res.status(400);
-                // res.send(JSON.stringify({ ok: false }));
-            });
+        if (req.body.order_url) {
+            btn.actions[0].url = req.body.order_url;
+            attach.attachments = [btn];
         }
 
         if (req.body.order_id && req.body.order_store) {
             // 添加按鈕
-            const btn = VIEW.order_btn;
             btn.callback_id = `add_in/${req.body.order_id}`;
             attach.attachments = [btn];
 
