@@ -47,7 +47,7 @@ router.post('/', (req, res, next) => {
 
     // 發送
     const goodname = req.header('Authorization');
-    if (true) {
+    if (true || goodname === '0ffd55100b68587e9cb7613481a0bc89a5c822bbf5b1dca49299f21ce13fb520') {
         res.setHeader('Content-Type', 'application/json');
         res.setHeader('Access-Control-Allow-Origin', '*');
         web.chat.postMessage(to, req.body.message, attach).then((result) => {
