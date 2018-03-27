@@ -1,6 +1,6 @@
 const _object = require('lodash/object');
 const admin = require('firebase-admin');
-const serviceAccount = require('./goodfood-new-adminsdk-private-key.json');
+const serviceAccount = require('./config/goodfood-new-adminsdk-private-key.json');
 
 /**
  * @description Firebase Admin SDK Docs Overview - Node.js
@@ -45,7 +45,7 @@ module.exports = class firebase {
                     this.STORE.child(`${storeId}/menus/${element.id}`)
                         .once('value')
                         .then(snapshot =>
-                            new Promise((_resolve, _reject) => {
+                            new Promise((_resolve) => {
                                 const val = snapshot.val();
                                 val.count = element.count;
                                 val.total = element.count * val.price;
@@ -83,19 +83,16 @@ module.exports = class firebase {
         return new Promise((resolve, reject) => {
             try {
                 let result = null;
-                this.STORE.once('value')
-                    .then((snapshot) => {
-                        if (storeId) {
-                            if (snapshot.child(`${storeId}`).exists()) {
-                                result = snapshot.child(`${storeId}`).val();
-                            }
-                        } else {
-                            result = snapshot.val();
+                this.STORE.once('value').then((snapshot) => {
+                    if (storeId) {
+                        if (snapshot.child(`${storeId}`).exists()) {
+                            result = snapshot.child(`${storeId}`).val();
                         }
-                    })
-                    .then(() => {
-                        resolve(result);
-                    });
+                    } else {
+                        result = snapshot.val();
+                    }
+                    resolve(result);
+                });
             } catch (error) {
                 reject(new Error(error));
             }
@@ -110,13 +107,14 @@ module.exports = class firebase {
         return new Promise((resolve, reject) => {
             try {
                 this.STORE.once('value')
-                    .then((snapshot) => {
-                        if (snapshot.child(`${storeId}`).exists()) {
-                            return new Promise((_resolve, _reject) => {
-                                resolve(snapshot.child(`${storeId}/menus`).val());
-                            });
-                        }
-                    })
+                    .then(snapshot =>
+                        new Promise((_resolve, _reject) => {
+                            if (snapshot.child(`${storeId}`).exists()) {
+                                _resolve(snapshot.child(`${storeId}/menus`).val());
+                            } else {
+                                _reject(new Error('無此店家'));
+                            }
+                        }))
                     .then((data) => {
                         resolve(data);
                     });
