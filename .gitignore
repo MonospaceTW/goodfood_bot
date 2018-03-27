@@ -9,3 +9,4 @@ rtm
 views
 bind.db
 *-private-key.json
+package-lock.json
