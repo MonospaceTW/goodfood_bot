@@ -23,6 +23,8 @@
         "express": "~4.15.5",
         "leveldown": "^3.0.0",
         "levelup": "^2.0.2",
+        "firebase-admin": "^5.10.0",
+        "lodash": "^4.17.5",
         "morgan": "~1.9.0",
         "serve-favicon": "~2.4.5",
         "sqlite3": "^3.1.13",
