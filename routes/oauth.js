@@ -20,6 +20,21 @@ router.get('/', (req, res, next) => {
     } else {
         web.oauth.access(clientId, clientSecret, codee).then((result) => {
             if (result.ok) {
+                // check is in list and update list
+                leveldb.get('goodfood', (err, value) => {
+                    let tempJSON = { list: [] };
+                    if (!err) {
+                        tempJSON = JSON.parse(value);
+                    }
+                    const index = tempJSON.list.indexOf(result.user_id);
+                    if (index !== -1) {
+                        tempJSON.list[index] = result.user_id;
+                    } else {
+                        tempJSON.list.push(result.user_id);
+                    }
+                    leveldb.put('goodfood', JSON.stringify(tempJSON));
+                });
+                // update bind data
                 leveldb.put(`goodfood/${result.user_id}`, `${state}`, (err) => {
                     if (err) {
                         res.send(JSON.stringify({ ok: false, bind: false }));
