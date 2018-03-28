@@ -1,6 +1,6 @@
 const _object = require('lodash/object');
 const admin = require('firebase-admin');
-const serviceAccount = require('./goodfood-new-adminsdk-private-key.json');
+const serviceAccount = require('./config/goodfood-new-adminsdk-private-key.json');
 
 /**
  * @description Firebase Admin SDK Docs Overview - Node.js

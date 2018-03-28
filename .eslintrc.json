@@ -28,7 +28,8 @@
         ],
         "no-console" :  "warn",
         "no-param-reassign": ["error", { "props": false }],
-        "no-underscore-dangle": "off"
+        "no-underscore-dangle": "off",
+        "skipTemplates": true
     },
     "parserOptions":
     {

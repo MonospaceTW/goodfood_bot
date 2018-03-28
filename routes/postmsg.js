@@ -17,32 +17,46 @@ router.post('/', (req, res, next) => {
 
     // 點餐按鈕
     if (req.body.attachments === 'yes') {
-        const btn = VIEW.order_btn;
+        const btn = JSON.parse(JSON.stringify(VIEW.order_btn));
 
+        // 有網頁連結
         if (req.body.order_url) {
             btn.actions[0].url = req.body.order_url;
-            attach.attachments = [btn];
+        } else { // 沒網頁連結
+            btn.actions.shift();
         }
 
+        // 有 slack 點餐
         if (req.body.order_id && req.body.order_store) {
             // 添加按鈕
-            btn.callback_id = `add_in/${req.body.order_id}`;
-            attach.attachments = [btn];
+            btn.callback_id = `add_in/${req.body.order_id}/${req.body.order_store}`;
+            const orderId = req.body.order_id;
 
-            // 加入資料庫
+            // 加入資料庫 2.0
             leveldb.get('order', (err, value) => {
-                let tempJSON = {};
-                const orderId = req.body.order_id;
+                let tempJSON = { list: [] };
                 if (!err) {
                     tempJSON = JSON.parse(value);
                 }
-                tempJSON[orderId] = {
-                    storeId: req.body.order_store,
-                    list: {},
-                };
+                const index = tempJSON.list.indexOf(orderId);
+                if (index !== -1) {
+                    tempJSON.list[index] = orderId;
+                } else {
+                    tempJSON.list.push(orderId);
+                }
                 leveldb.put('order', JSON.stringify(tempJSON));
             });
+
+            const store = {
+                storeId: req.body.order_store,
+                list: {},
+            };
+
+            leveldb.put(`order/${orderId}`, JSON.stringify(store));
+        } else { // 沒 slack 點餐
+            btn.actions.pop();
         }
+        attach.attachments = [btn];
     }
 
     // 發送

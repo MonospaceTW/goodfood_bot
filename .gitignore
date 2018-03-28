@@ -1,12 +1,13 @@
 node_modules
-config.json
-config
 slack.json
 github.json
+goodfood-new-adminsdk-private-key.json
+*-private-key.json
+view.json
+store.json
 leveldb
 public
 rtm
 views
-bind.db
-*-private-key.json
 package-lock.json
+appa.js
