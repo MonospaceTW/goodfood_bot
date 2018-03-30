@@ -36,9 +36,13 @@ module.exports = class firebase {
                 };
 
                 // set user name
-                const a = this.USER.getUser(uid).then((val) => {
-                    user.name = val.displayName;
-                });
+                const a = this.USER.getUser(uid)
+                    .then((val) => {
+                        user.name = val.displayName;
+                    })
+                    .catch((err) => {
+                        reject(err);
+                    });
 
                 // set user's order
                 const b = order.map(element =>
@@ -56,15 +60,15 @@ module.exports = class firebase {
 
                 Promise.all([a, ...b])
                     .then(() => {
-                        // update order total price
-                        this.ORDER.child(`/${orderId}/result/total`)
-                            .once('value')
-                            .then((snapshot) => {
-                                this.ORDER.child(`/${orderId}/result/total`).set(snapshot.val() + user.total);
-                            });
+                        // // update order total price
+                        // this.ORDER.child(`/${orderId}/result/total`)
+                        //     .once('value')
+                        //     .then((snapshot) => {
+                        //         this.ORDER.child(`/${orderId}/result/total`).set(snapshot.val() + user.total);
+                        //     });
 
-                        // update user's order
-                        this.ORDER.child(`${orderId}/result/users/${uid}`).update(user);
+                        // // update user's order
+                        // this.ORDER.child(`${orderId}/result/users/${uid}`).update(user);
                     })
                     .then(() => {
                         resolve();

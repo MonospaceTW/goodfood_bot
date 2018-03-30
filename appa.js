@@ -6,10 +6,17 @@ const storeId = '-L6gqAic0SFB-tk_x4Um';
 const uid = 'lftwM7KOcGgV7dHXu5mwdaW4t6Y2';
 const order = [{ id: '-L6gqAkn-dJKfqcMIiCH', count: 1 }];
 
-// db.createOrder(orderId, storeId, uid, order);
-db.readStore(storeId).then((data) => {
-    console.log(data.key);
-});
+db
+    .createOrder(orderId, 'storeId', uid, order)
+    .then((data) => {
+        console.log(data);
+    })
+    .catch((err) => {
+        console.log(err);
+    });
+// db.readStore(storeId).then((data) => {
+//     console.log(data.key);
+// });
 // db.readMenus(storeId).then((data) => {
 //     console.log(typeof data);
 // });
