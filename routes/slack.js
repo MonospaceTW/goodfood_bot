@@ -14,7 +14,7 @@ router.use('/interact', icact);
 router.use('/message-menus', mmenu);
 
 // block command outside slack
-router.use('/', sauth);
+router.use(/.+/, sauth);
 
 // command
 router.use('/cheese', cheese);

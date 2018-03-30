@@ -1,0 +1,87 @@
+{
+    "order_btn": 
+    {
+        "fallback": "你可以點餐了",
+        "callback_id": "callback_id",
+        "color": "#3AA3E3",
+        "actions": 
+        [
+            {
+                "name": "link",
+                "text": "在網頁點餐",
+                "type": "button"
+            },
+            {
+                "name": "order",
+                "text": "從 Slack 點餐",
+                "type": "button"
+            }
+        ]
+    },
+    "three_btn": 
+    {
+        "fallback": "你可以在 slack 點餐",
+        "callback_id": "callback_id2",
+        "color": "#3AA3E3",
+        "actions": 
+        [
+            {
+                "name": "clear",
+                "text": "清除所有點餐",
+                "type": "button"
+            },
+            {
+                "name": "order",
+                "text": "新增點餐",
+                "type": "button"
+            },
+            {
+                "name": "submit",
+                "text": "送出點餐",
+                "type": "button",
+                "style": "primary",
+                "confirm": 
+                {
+                    "title": "確定送出點餐 ?",
+                    "ok_text": "送出",
+                    "dismiss_text": "取消"
+                }
+            }
+        ]
+    },
+    "order_dialog":
+    {
+        "callback_id": "callback_id3",
+        "title": "選擇餐點",
+        "submit_label": "Submit",
+        "elements": 
+        [
+            {
+                "label": "訂單列表",
+                "name": "order_list",
+                "type": "select",
+                "placeholder": "選擇餐點",
+                "options": []
+            },
+            {
+                "label": "數量",
+                "name": "num",
+                "type": "text",
+                "subtype": "number",
+                "placeholder": "0"
+            }
+        ]
+    },
+    "order_list":
+    {
+        "pretext": "訂單列表",
+        "color": "#321654",
+        "fields": [],
+        "ts": 123456789
+    },
+    "order_complete":
+    {
+        "color": "#3AA3E3",
+        "title": ":heavy_check_mark: 點餐完成 !"
+    }
+}

@@ -25,7 +25,8 @@
         "no-console": "warn",
         "no-param-reassign": ["error", { "props": false }],
         "no-underscore-dangle": "off",
-        "linebreak-style": "off"
+        "linebreak-style": "off",
+        "skipTemplates": true
     },
     "parserOptions": {
         "ecmaVersion": 8
