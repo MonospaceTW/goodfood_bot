@@ -3,7 +3,7 @@
 ### API
 - [API列表](http://goodfood-beta.trunksys.com/docs/)
 
-### Test API
+### Test API (Beta)
 
 curl
 ```
@@ -15,8 +15,11 @@ axios
 this.$axios({
     method: 'post',
     url: 'http://goodfood-beta.trunksys.com/message',
-    data: { message: '*test* slack api' },
-    headers: {'Authorization': 'test'},
+    data: { 
+        message: '今天吃大便當',
+        channel: '#general'
+    },
+    headers: {'Authorization': '0ffd55100b68587e9cb7613481a0bc89a5c822bbf5b1dca49299f21ce13fb520'},
 }).then(function (response) {
     console.log(response.data);  // {ok: true} will print
 })
@@ -40,13 +43,48 @@ this.$axios({
 
 ### Other
 
-- 需要授權才能發話 ， 如 header 裡的 "Authorization: test"
-- 如何取得授權參考下面 Command 項目
-- 目前只會傳到 #test-bot 裡
+- 需要授權才能發話 ， 如 header 裡的 "Authorization: firebase-uid"(現暫無作用)
 - message 中有多種文字格式可以套用，參考下面二例
 - \***裡面會是粗體字**\*
 - <裡面會是網址>  用非網址文字會變箭頭括號包起來的文字
 
+<hr>
+
+### API TEST - BETA (還沒上 SERVER)
+
+```javascript
+this.$axios({
+    method: 'post',
+    url: 'http://goodfood-beta.trunksys.com/message',
+    data: { 
+        message: '今天吃大便當喔喔喔',
+        channel: '#general',
+        botname: 'MONO機器人',
+        attachments: 'yes',
+        order_id: '-L6gqAiUoE6CyZ5DKKKO',
+        order_store: '-L6gqAidhannMbBCIBM3',
+        order_url: 'https://www.google.com.tw/',
+    },
+    headers: {'Authorization': 'firebase-member-uid'},
+}).then(function (response) {
+    console.log(response.data);  // {ok: true} will print
+})
+.catch(function (error) {
+    console.log(error);
+});
+```
+
+### Parameters
+
+- message ： [Message to post] **required**
+- channel ： [Channel to post] **optional** (default: #test-bot)
+  <br>有四種 ： '#channel-name' ／ 'channelId' 、 '@user-name(not-display-name)' ／ 'user-id' 
+- botname ： [Botname to show] **optional** (default: goodfood-bot)
+- iconurl ： [Iconurl to show] **optional** (default: https://goodfood-beta.trunksys.com/images/sushi.jpg)
+- attachments ： [yes] **optional** (default: null)
+- order_id ： [order_id] **optional** (default: null)
+- order_store ： [order_store] **optional** (default: null)
+- order_url ： [order_url] **optional** (default: null)
 <hr>
 
 ### Command
