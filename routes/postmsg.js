@@ -39,20 +39,13 @@ router.post('/', (req, res, next) => {
                     tempJSON = JSON.parse(value);
                 }
                 const index = tempJSON.list.indexOf(orderId);
-                if (index !== -1) {
-                    tempJSON.list[index] = orderId;
-                } else {
+                if (index === -1) {
                     tempJSON.list.push(orderId);
                 }
                 leveldb.put('order', JSON.stringify(tempJSON));
             });
 
-            const store = {
-                storeId: req.body.order_store,
-                list: {},
-            };
-
-            leveldb.put(`order/${orderId}`, JSON.stringify(store));
+            leveldb.put(`order/${orderId}/store`, req.body.order_store);
         } else { // 沒 slack 點餐
             btn.actions.pop();
         }
@@ -61,7 +54,8 @@ router.post('/', (req, res, next) => {
 
     // 發送
     const goodname = req.header('Authorization');
-    if (true || goodname === '0ffd55100b68587e9cb7613481a0bc89a5c822bbf5b1dca49299f21ce13fb520') {
+    // get bind member here to check auth
+    if (true || goodname) {
         res.setHeader('Content-Type', 'application/json');
         res.setHeader('Access-Control-Allow-Origin', '*');
         web.chat.postMessage(to, req.body.message, attach).then((result) => {
