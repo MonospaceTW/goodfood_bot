@@ -151,13 +151,26 @@ router.post('/', async (req, res, next) => {
             await leveldb.put(`order/${orderId}/${payload.user.id}`, JSON.stringify(thisOrder));
         }
 
+        // option text
+        let opText = '';
+        const opArrr = ['加飯', '加麵', '加蛋'];
+        if (payload.submission.option1) {
+            opText += ` (${opArrr[payload.submission.option1 - 1]})`;
+        }
+        if (payload.submission.option2) {
+            opText += ` (${opArrr[payload.submission.option2 - 1]})`;
+        }
+        if (payload.submission.option3) {
+            opText += ` (${opArrr[payload.submission.option3 - 1]})`;
+        }
+
         // show order
         let all = 0;
         orderList.pretext = `:curry: ${storeName} - 你的訂單`;
         orderList.ts = Date.now() / 1000;
         thisOrder.list.forEach((food) => {
             orderList.fields.push({
-                title: `${storeFood.food[food.foodId].name} $${storeFood.food[food.foodId].price} * ${food.num}  =  $${food.price}`,
+                title: `${storeFood.food[food.foodId].name}${opText} $${storeFood.food[food.foodId].price} * ${food.num}  =  $${food.price}`,
                 short: false,
             });
             all += food.price;
