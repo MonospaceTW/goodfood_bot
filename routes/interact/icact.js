@@ -137,6 +137,18 @@ router.post('/', async (req, res, next) => {
         });
         menu.pretext = `${storeFood.name}`;
 
+        // food option
+        const opArr = [];
+        if (payload.submission.option1) {
+            opArr.push(payload.submission.option1);
+        }
+        if (payload.submission.option2) {
+            opArr.push(payload.submission.option2);
+        }
+        if (payload.submission.option3) {
+            opArr.push(payload.submission.option3);
+        }
+
         // store to database
         let thisOrder = await leveldb.get(`order/${orderId}/${payload.user.id}`);
         thisOrder = JSON.parse(thisOrder);
@@ -147,28 +159,23 @@ router.post('/', async (req, res, next) => {
                 foodId,
                 num,
                 price: num * storeFood.food[foodId].price,
+                option: opArr,
             });
             await leveldb.put(`order/${orderId}/${payload.user.id}`, JSON.stringify(thisOrder));
         }
 
-        // option text
-        let opText = '';
-        const opArrr = ['加飯', '加麵', '加蛋'];
-        if (payload.submission.option1) {
-            opText += ` (${opArrr[payload.submission.option1 - 1]})`;
-        }
-        if (payload.submission.option2) {
-            opText += ` (${opArrr[payload.submission.option2 - 1]})`;
-        }
-        if (payload.submission.option3) {
-            opText += ` (${opArrr[payload.submission.option3 - 1]})`;
-        }
 
         // show order
         let all = 0;
+        const opArrr = ['加飯', '加麵', '加蛋'];
+
         orderList.pretext = `:curry: ${storeName} - 你的訂單`;
         orderList.ts = Date.now() / 1000;
         thisOrder.list.forEach((food) => {
+            let opText = '';
+            food.option.forEach((op) => {
+                opText += ` (${opArrr[Number(op) - 1]})`;
+            });
             orderList.fields.push({
                 title: `${storeFood.food[food.foodId].name}${opText} $${storeFood.food[food.foodId].price} * ${food.num}  =  $${food.price}`,
                 short: false,
