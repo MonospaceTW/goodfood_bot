@@ -17,6 +17,9 @@ router.post('/', (req, res, next) => {
                     const id = arr.list.splice(i, 1)[0];
                     await leveldb.put('order', JSON.stringify(arr));
                     await leveldb.del(`order/${id}`);
+                    await leveldb.del(`order/${id}/store`);
+                    await leveldb.del(`order/${id}/${req.body.user_id}`);
+                    console.log(req.body.user_id);
                     res.send('dd');
                     res.end();
                 } else {
