@@ -100,7 +100,13 @@ router.post('/', async (req, res, next) => {
             payload.original_message.attachments.shift();
             payload.original_message.attachments.pop();
 
-            // submit order here
+            // submit order
+            let orderList = await leveldb.get(`order/${orderId}/${payload.user.id}`);
+            orderList = JSON.parse(orderList);
+            const order = orderList.list.map((o, i) => {
+                return { id: o.foodId, count: o.num };
+            });
+            firebasedb.createOrder(orderId, orderStore, 'lftwM7KOcGgV7dHXu5mwdaW4t6Y2', order);
             web.chat.update(payload.message_ts, payload.channel.id, '', { attachments: [payload.original_message.attachments[0], ok] }).then((result) => {
                 if (result.ok) {
                     res.end();
