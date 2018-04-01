@@ -1,9 +1,7 @@
 {
     "extends": "airbnb-base",
-    "rules":
-    {
-        "max-len":
-        [
+    "rules": {
+        "max-len": [
             "error",
             {
                 "code": 200,
@@ -12,12 +10,10 @@
             }
         ],
         "indent": ["error", 4],
-        "require-jsdoc":
-        [
+        "require-jsdoc": [
             "error",
             {
-                "require":
-                {
+                "require": {
                     "FunctionDeclaration": false,
                     "MethodDefinition": false,
                     "ClassDeclaration": false,
@@ -26,17 +22,16 @@
                 }
             }
         ],
-        "no-console" :  "warn",
+        "no-console": "warn",
         "no-param-reassign": ["error", { "props": false }],
         "no-underscore-dangle": "off",
+        "linebreak-style": "off",
         "skipTemplates": true
     },
-    "parserOptions":
-    {
+    "parserOptions": {
         "ecmaVersion": 8
     },
-    "env":
-    {
+    "env": {
         "jest": true
     }
 }
