@@ -33,23 +33,19 @@ module.exports = class firebase {
 
                 const checkOrder = this.ORDER.child(`${orderId}`)
                     .once('value')
-                    .then(snapshot =>
-                        new Promise((_resolve, _reject) => {
-                            if (!snapshot.exists()) {
-                                _reject(new Error('訂單不存在'));
-                            }
-                            _resolve();
-                        }));
+                    .then((snapshot) => {
+                        if (!snapshot.exists()) {
+                            throw new Error('訂單不存在');
+                        }
+                    });
 
                 const checkStore = this.STORE.child(`${storeId}`)
                     .once('value')
-                    .then(snapshot =>
-                        new Promise((_resolve, _reject) => {
-                            if (!snapshot.exists()) {
-                                _reject(new Error('店家不存在'));
-                            }
-                            _resolve();
-                        }));
+                    .then((snapshot) => {
+                        if (!snapshot.exists()) {
+                            throw new Error('店家不存在');
+                        }
+                    });
 
                 const user = {
                     id: uid,
@@ -60,48 +56,42 @@ module.exports = class firebase {
                 };
 
                 // set user name
-                const a = this.USER.getUser(uid)
-                    .then((val) => {
-                        user.name = val.displayName;
-                    })
-                    .catch(err =>
-                        new Promise((_resolve, _reject) => {
-                            _reject(new Error(err));
-                        }));
+                const a = this.USER.getUser(uid).then((val) => {
+                    user.name = val.displayName;
+                });
 
                 // set user's order
                 const b = order.map(element =>
                     this.STORE.child(`${storeId}/menus/${element.id}`)
                         .once('value')
-                        .then(snapshot =>
-                            new Promise((_resolve) => {
-                                const val = snapshot.val();
-                                val.count = element.count;
-                                val.total = element.count * val.price;
-                                _object.updateWith(
-                                    user,
-                                    `[order][${snapshot.key}]`,
-                                    () => {
-                                        const hasOrder = user.order[`${snapshot.key}`] === undefined;
-                                        val.count += hasOrder ? 0 : user.order[`${snapshot.key}`].count;
-                                        val.total += hasOrder ? 0 : user.order[`${snapshot.key}`].total;
-                                        return val;
-                                    },
-                                    Object,
-                                );
-                                _resolve();
-                            })));
+                        .then((snapshot) => {
+                            const val = snapshot.val();
+                            val.count = element.count;
+                            val.total = element.count * val.price;
+                            _object.updateWith(
+                                user,
+                                `[order][${snapshot.key}]`,
+                                () => {
+                                    const hasOrder = user.order[`${snapshot.key}`] === undefined;
+                                    val.count += hasOrder ? 0 : user.order[`${snapshot.key}`].count;
+                                    val.total += hasOrder ? 0 : user.order[`${snapshot.key}`].total;
+                                    return val;
+                                },
+                                Object,
+                            );
+                        }));
 
-                Promise.all([checkOrder, checkStore])
-                    .then(() => {
-                        Promise.all([a, ...b])
+                Promise.all([checkOrder, checkStore]).then(() => {
+                    Promise.all([a, b]).then(() => {
+                        // count user's total
+                        _object.forIn(user.order, (value) => {
+                            user.total += value.total;
+                        });
+
+                        // update user's order
+                        this.ORDER.child(`${orderId}/result/users/${uid}`)
+                            .update(user)
                             .then(() => {
-                                // update user's order
-                                _object.forIn(user.order, (value) => {
-                                    user.total += value.total;
-                                });
-                                this.ORDER.child(`${orderId}/result/users/${uid}`).update(user);
-
                                 // update order total price
                                 this.ORDER.child(`/${orderId}/result/users`)
                                     .once('value')
@@ -112,19 +102,12 @@ module.exports = class firebase {
                                         });
                                         this.ORDER.child(`/${orderId}/result/total`).set(total);
                                     });
-                            })
-                            .then(() => {
-                                resolve(user);
-                            })
-                            .catch((err) => {
-                                reject(err);
                             });
-                    })
-                    .catch((err) => {
-                        reject(err);
+                        resolve(user);
                     });
+                });
             } catch (error) {
-                reject(new Error(error));
+                reject(error);
             }
         });
     }
@@ -142,7 +125,7 @@ module.exports = class firebase {
                         if (snapshot.child(`${storeId}`).exists()) {
                             result = snapshot.child(`${storeId}`).val();
                         } else {
-                            reject(new Error('無此店家'));
+                            throw new Error('店家不存在');
                         }
                     } else {
                         result = snapshot.val();
@@ -150,7 +133,7 @@ module.exports = class firebase {
                     resolve(result);
                 });
             } catch (error) {
-                reject(new Error(error));
+                reject(error);
             }
         });
     }
@@ -162,20 +145,15 @@ module.exports = class firebase {
     readMenus(storeId) {
         return new Promise((resolve, reject) => {
             try {
-                this.STORE.once('value')
-                    .then(snapshot =>
-                        new Promise((_resolve, _reject) => {
-                            if (snapshot.child(`${storeId}`).exists()) {
-                                _resolve(snapshot.child(`${storeId}/menus`).val());
-                            } else {
-                                _reject(new Error('無此店家'));
-                            }
-                        }))
-                    .then((data) => {
-                        resolve(data);
-                    });
+                this.STORE.once('value').then((snapshot) => {
+                    if (snapshot.child(`${storeId}`).exists()) {
+                        resolve(snapshot.child(`${storeId}/menus`).val());
+                    } else {
+                        throw new Error('店家不存在');
+                    }
+                });
             } catch (error) {
-                reject(new Error(error));
+                reject(error);
             }
         });
     }
@@ -197,7 +175,7 @@ module.exports = class firebase {
                     });
                 }
             } catch (error) {
-                reject(new Error(error));
+                reject(error);
             }
         });
     }
