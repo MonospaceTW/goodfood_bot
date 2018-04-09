@@ -3,7 +3,7 @@ const express = require('express');
 const cheese = require('./commands/firebase/cheese');
 const displaydb = require('./commands/firebase/displaydb');
 const deletedb = require('./commands/firebase/deletedb');
-const icact = require('./interact/icact');
+const icact = require('./interact');
 const mmenu = require('./interact/mmenu');
 const sauth = require('./slackauth');
 

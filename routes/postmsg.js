@@ -2,7 +2,7 @@ const { WebClient } = require('@slack/client');
 const express = require('express');
 const leveldb = require('../leveldb');
 const SLACK = require('../config/slack.json');
-const VIEW = require('../config/view.json');
+const VIEW = require('../templates/order_btn.json');
 
 const token = SLACK.BOT_TOKEN;
 
@@ -17,7 +17,7 @@ router.post('/', (req, res, next) => {
 
     // 點餐按鈕
     if (req.body.attachments === 'yes') {
-        const btn = JSON.parse(JSON.stringify(VIEW.order_btn));
+        const btn = JSON.parse(JSON.stringify(VIEW));
 
         // 有網頁連結
         if (req.body.order_url) {

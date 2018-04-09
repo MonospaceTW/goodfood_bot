@@ -1,5 +1,5 @@
 const express = require('express');
-const leveldb = require('../../leveldb');
+const leveldb = require('../../../leveldb');
 
 const router = express.Router();
 
