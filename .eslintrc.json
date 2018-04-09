@@ -21,7 +21,9 @@
     "no-console": "warn",
     "linebreak-style": 0,
     "no-unused-vars": 1,
-    "camelcase": 0
+    "camelcase": 0,
+    "object-curly-newline": 1,
+    "arrow-body-style": 0
   },
   "parserOptions": {
     "ecmaVersion": 8

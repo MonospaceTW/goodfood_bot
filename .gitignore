@@ -6,3 +6,4 @@ views
 bind.db
 config
 leveldb
+.vscode

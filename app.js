@@ -7,7 +7,7 @@ const bodyParser = require('body-parser');
 const postmsg = require('./routes/postmsg');
 const swagger = require('./routes/swagger');
 const slack = require('./routes/slack');
-const github = require('./routes/github');
+const oauth = require('./routes/oauth');
 
 const app = express();
 
@@ -22,7 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', swagger);
 app.use('/message', postmsg);
 app.use('/slack', slack);
-app.use('/github', github);
+app.use('/oauth', oauth);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
