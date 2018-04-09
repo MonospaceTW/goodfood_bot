@@ -12,3 +12,6 @@ slack.json
 store.json
 view.json
 templates
+config
+leveldb
+.vscode

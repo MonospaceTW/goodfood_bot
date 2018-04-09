@@ -15,8 +15,8 @@
         "nodemon": "^1.17.1"
     },
     "dependencies": {
-        "@octokit/rest": "^15.1.8",
         "@slack/client": "^3.15.0",
+        "axios": "^0.18.0",
         "body-parser": "~1.18.2",
         "cookie-parser": "~1.4.3",
         "debug": "~2.6.9",

@@ -9,7 +9,10 @@
                 "ignoreUrls": true
             }
         ],
-        "indent": ["error", 4],
+        "indent": [
+            "error",
+            4
+        ],
         "require-jsdoc": [
             "error",
             {
@@ -23,9 +26,18 @@
             }
         ],
         "no-console": "warn",
-        "no-param-reassign": ["error", { "props": false }],
+        "linebreak-style": 0,
+        "no-unused-vars": 1,
+        "camelcase": 0,
+        "object-curly-newline": 1,
+        "arrow-body-style": 0,
+        "no-param-reassign": [
+            "error",
+            {
+                "props": false
+            }
+        ],
         "no-underscore-dangle": "off",
-        "linebreak-style": "off",
         "skipTemplates": true
     },
     "parserOptions": {
