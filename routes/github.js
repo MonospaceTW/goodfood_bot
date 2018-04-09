@@ -39,13 +39,14 @@ router.get('/authorize', (req, res) => {
             });
         })
         .then((resp) => {
+            const user_id = req.query.state.split('/')[0];
             const channel_id = req.query.state.split('/')[1];
             const user = resp.data;
-            return web.chat.postMessage(
+            return web.chat.postEphemeral(
                 channel_id,
                 `You have connected to ${user.login}.`,
+                user_id,
                 {
-                    response_type: 'ephemeral',
                     attachments: [
                         {
                             color: '#0E163B',

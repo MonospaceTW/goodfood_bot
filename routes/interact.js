@@ -50,6 +50,8 @@ router.post('/', (req, res) => {
                     } else {
                         res.status(500).end(resp.error);
                     }
+                }).catch((err) => {
+                    res.status(500).end(err);
                 });
             })
             .catch((err) => {
