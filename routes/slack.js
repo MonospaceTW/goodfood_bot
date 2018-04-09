@@ -1,8 +1,8 @@
 const express = require('express');
 
-const cheese = require('./commands/cheese');
-const displaydb = require('./commands/displaydb');
-const deletedb = require('./commands/deletedb');
+const cheese = require('./commands/firebase/cheese');
+const displaydb = require('./commands/firebase/displaydb');
+const deletedb = require('./commands/firebase/deletedb');
 const icact = require('./interact/icact');
 const mmenu = require('./interact/mmenu');
 const sauth = require('./slackauth');
