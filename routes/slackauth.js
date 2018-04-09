@@ -9,6 +9,7 @@ router.post('/', (req, res, next) => {
     if (req.body.token === token) {
         next();
     } else {
+        res.sendStatus(403);
         res.end();
     }
 });

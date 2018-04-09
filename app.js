@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 
 const postmsg = require('./routes/postmsg');
 const channels = require('./routes/channels');
-const swagger = require('./routes/swagger');
+const swagger = require('./routes/swagger/swagger');
 const slack = require('./routes/slack');
 const github = require('./routes/github');
 const oauth = require('./routes/oauth');
