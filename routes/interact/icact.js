@@ -3,7 +3,7 @@ const express = require('express');
 const leveldb = require('../../leveldb');
 const SLACK = require('../../config/slack.json');
 const VIEW = require('../../config/view.json');
-const Firebase = require('../../firebase');
+const Firebase = require('../../services/firebase/firebase');
 
 const token = SLACK.BOT_TOKEN;
 
