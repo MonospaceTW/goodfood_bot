@@ -7,7 +7,7 @@ const token = SLACK.BOT_TOKEN;
 
 const web = new WebClient(token);
 
-module.export = async (payload, res) => {
+module.exports = async (payload, res) => {
     const callbacks = payload.callback_id.split('/');
     const orderStore = callbacks[2];
     const foodId = payload.actions[0].selected_options[0].value;

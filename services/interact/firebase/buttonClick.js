@@ -10,7 +10,7 @@ const token = SLACK.BOT_TOKEN;
 const web = new WebClient(token);
 const firebasedb = new Firebase();
 
-module.export = async (payload, res) => {
+module.exports = async (payload, res) => {
     const callbacks = payload.callback_id.split('/');
     const orderId = callbacks[1];
     const orderStore = callbacks[2];

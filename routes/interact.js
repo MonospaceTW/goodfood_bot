@@ -7,7 +7,7 @@ const addOrder = require('../services/interact/firebase/addOrder');
 const router = express.Router();
 
 router.post('/', async (req, res, next) => {
-    const { payload } = JSON.parse(req.body);
+    const payload = JSON.parse(req.body.payload);
     const callbacks = payload.callback_id.split('/');
 
     if (callbacks[0] === 'add_in') {

@@ -8,7 +8,6 @@ const postmsg = require('./routes/postmsg');
 const channels = require('./routes/channels');
 const swagger = require('./routes/swagger/swagger');
 const slack = require('./routes/slack');
-const github = require('./routes/github');
 const oauth = require('./routes/oauth');
 
 const app = express();
@@ -25,7 +24,6 @@ app.use('/', swagger);
 app.use('/message', postmsg);
 app.use('/channels', channels);
 app.use('/slack', slack);
-app.use('/github', github);
 app.use('/oauth', oauth);
 
 // catch 404 and forward to error handler
