@@ -1,9 +1,9 @@
 const express = require('express');
 const axios = require('axios');
-const CONFIG_SLACK = require('../config/slack.json');
-const CONFIG_GITHUB = require('../config/github.json');
 const { WebClient } = require('@slack/client');
-const db = require('../leveldb');
+const db = require('../../leveldb');
+const CONFIG_SLACK = require('../../config/slack.json');
+const CONFIG_GITHUB = require('../../config/github.json');
 
 const web = new WebClient(CONFIG_SLACK.BOT_TOKEN);
 

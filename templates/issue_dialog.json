@@ -1,0 +1,41 @@
+{
+    "title": "Create an issue",
+    "callback_id": "submit-issue",
+    "submit_label": "Submit",
+    "elements": [
+        {
+            "label": "Owner",
+            "type": "select",
+            "name": "owner",
+            "placeholder": "Select a owner",
+            "value": "---",
+            "options": [
+                {
+                    "label": "---",
+                    "value": "---"
+                }
+            ]
+        },
+        {
+            "label": "Repository",
+            "type": "select",
+            "name": "repo",
+            "placeholder": "Select a repository",
+            "value": "goodfood",
+            "options": "---"
+        },
+        {
+            "label": "Title",
+            "type": "text",
+            "name": "title",
+            "placeholder": "Title"
+        },
+        {
+            "label": "Description",
+            "type": "textarea",
+            "name": "description",
+            "optional": true,
+            "placeholder": "Leave some descriptions"
+        }
+    ]
+}
