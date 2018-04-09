@@ -1,7 +1,7 @@
 const { WebClient } = require('@slack/client');
 const express = require('express');
-const SLACK = require('../config/slack.json');
-const leveldb = require('../leveldb');
+const SLACK = require('../../config/slack.json');
+const leveldb = require('../../leveldb');
 
 const token = SLACK.BOT_TOKEN;
 const clientId = SLACK.CLIENT_ID;
