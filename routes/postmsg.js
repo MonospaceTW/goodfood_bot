@@ -1,45 +1,80 @@
 const { WebClient } = require('@slack/client');
 const express = require('express');
-const SqliteDb = require('./sqlite/sqlitedb');
-const CONFIG_SLACK = require('../config/slack.json');
+const leveldb = require('../leveldb');
+const SLACK = require('../config/slack.json');
+const VIEW = require('../templates/order_btn.json');
 
-// get slack bot token
-const token = CONFIG_SLACK.BOT_TOKEN;
+const token = SLACK.BOT_TOKEN;
 
 const web = new WebClient(token);
 const router = express.Router();
 
-const db = new SqliteDb();
-const attach = {};
-
 router.post('/', (req, res, next) => {
+    const attach = {};
     const to = req.body.channel ? req.body.channel : '#test-bot';
     attach.username = req.body.botname ? req.body.botname : 'goodfood_bot';
     attach.icon_url = req.body.iconurl ? req.body.iconurl : 'http://goodfood-beta.trunksys.com/images/sushi.jpg';
-    const goodname = req.header('Authorization');
-    const row = db.read('SELECT goodfood FROM Bind WHERE goodfood = ?', `${goodname}`);
-    row.then((col) => {
-        if (col.length > 0) {
-            res.setHeader('Content-Type', 'application/json');
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            web.chat.postMessage(to, req.body.message, attach).then((result) => {
-                if (result.ok) {
-                    res.send(JSON.stringify({ ok: true }));
-                    res.end();
+
+    // 點餐按鈕
+    if (req.body.attachments === 'yes') {
+        const btn = JSON.parse(JSON.stringify(VIEW));
+
+        // 有網頁連結
+        if (req.body.order_url) {
+            btn.actions[0].url = req.body.order_url;
+        } else { // 沒網頁連結
+            btn.actions.shift();
+        }
+
+        // 有 slack 點餐
+        if (req.body.order_id && req.body.order_store) {
+            // 添加按鈕
+            btn.callback_id = `add_in/${req.body.order_id}/${req.body.order_store}`;
+            const orderId = req.body.order_id;
+
+            // 加入資料庫 2.0
+            leveldb.get('order', (err, value) => {
+                let tempJSON = { list: [] };
+                if (!err) {
+                    tempJSON = JSON.parse(value);
                 }
-            }).catch(() => {
-                res.status(400);
-                res.send(JSON.stringify({ ok: false }));
-                res.end();
+                const index = tempJSON.list.indexOf(orderId);
+                if (index === -1) {
+                    tempJSON.list.push(orderId);
+                }
+                leveldb.put('order', JSON.stringify(tempJSON));
             });
-        } else {
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            res.status(401);
-            res.setHeader('Content-Type', 'application/json');
+
+            leveldb.put(`order/${orderId}/store`, req.body.order_store);
+        } else { // 沒 slack 點餐
+            btn.actions.pop();
+        }
+        attach.attachments = [btn];
+    }
+
+    // 發送
+    const goodname = req.header('Authorization');
+    // get bind member here to check auth
+    if (true || goodname) {
+        res.setHeader('Content-Type', 'application/json');
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        web.chat.postMessage(to, req.body.message, attach).then((result) => {
+            if (result.ok) {
+                res.send(JSON.stringify({ ok: true }));
+                res.end();
+            }
+        }).catch(() => {
+            res.status(400);
             res.send(JSON.stringify({ ok: false }));
             res.end();
-        }
-    });
+        });
+    } else {
+        res.setHeader('Access-Control-Allow-Origin', '*');
+        res.status(403);
+        res.setHeader('Content-Type', 'application/json');
+        res.send(JSON.stringify({ ok: false }));
+        res.end();
+    }
 });
 
 router.options('/', (req, res, next) => {

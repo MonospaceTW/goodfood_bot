@@ -5,7 +5,8 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
 const postmsg = require('./routes/postmsg');
-const swagger = require('./routes/swagger');
+const channels = require('./routes/channels');
+const swagger = require('./routes/swagger/swagger');
 const slack = require('./routes/slack');
 const oauth = require('./routes/oauth');
 
@@ -21,6 +22,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', swagger);
 app.use('/message', postmsg);
+app.use('/channels', channels);
 app.use('/slack', slack);
 app.use('/oauth', oauth);
 
@@ -38,6 +40,7 @@ app.use((err, req, res, next) => {
     res.locals.error = req.app.get('env') === 'development' ? err : {};
 
     // render the error page
+    res.setHeader('Content-Type', 'application/json');
     res.status(err.status || 402);
     res.send(JSON.stringify({ ok: false }));
 });
