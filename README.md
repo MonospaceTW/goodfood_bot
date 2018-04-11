@@ -3,7 +3,7 @@
 ### API
 - [API列表](http://goodfood-beta.trunksys.com/docs/)
 
-### Test API (Beta)
+### Test POST Message
 
 curl
 ```
@@ -28,13 +28,22 @@ this.$axios({
 });
 ```
 
+fetch
+```javascript
+fetch(  'https://goodfood-beta.trunksys.com/message',
+        {
+            method: 'POST',
+            headers: 
+            {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'message=今天吃大便當喔喔喔TEST&channel=#test-bot&attachments=yes&order_id=-L6gqAiUoE6CyZ5DKKKE&order_store=-L6gqAidhannMbBCIBM3&order_url=https://www.google.com.tw/'
+        }).then( (res) => {console.log(res)} )
+```
+
 ### Parameters
 
-- message ： [Message to post] **required**
-- channel ： [Channel to post] **optional**
-  有四種 ： '#channel-name' ／ 'channelId' 、 '@user-name(not-display-name)' ／ 'user-id' 
-- botname ： [Botname to show] **optional**
-- iconurl ： [Iconurl to show] **optional**
+![Parameters](./assets/2.PNG)
 
 ### Response
 
@@ -43,55 +52,59 @@ this.$axios({
 
 ### Other
 
-- 需要授權才能發話 ， 如 header 裡的 "Authorization: firebase-uid"(現暫無作用)
+- 需要授權才能發話 ， 如 header 裡的 "Authorization: firebase-uid"(會員綁定實做後作用)
 - message 中有多種文字格式可以套用，參考下面二例
 - \***裡面會是粗體字**\*
 - <裡面會是網址>  用非網址文字會變箭頭括號包起來的文字
 
 <hr>
 
-### API TEST - BETA (還沒上 SERVER)
+### TEST GET Channel list
 
-```javascript
-this.$axios({
-    method: 'post',
-    url: 'http://goodfood-beta.trunksys.com/message',
-    data: { 
-        message: '今天吃大便當喔喔喔',
-        channel: '#general',
-        botname: 'MONO機器人',
-        attachments: 'yes',
-        order_id: '-L6gqAiUoE6CyZ5DKKKO',
-        order_store: '-L6gqAidhannMbBCIBM3',
-        order_url: 'https://www.google.com.tw/',
-    },
-    headers: {'Authorization': 'firebase-member-uid'},
-}).then(function (response) {
-    console.log(response.data);  // {ok: true} will print
-})
-.catch(function (error) {
-    console.log(error);
-});
+curl
+```bash
+$ curl https://goodfood-beta.trunksys.com/channels
 ```
 
-### Parameters
+fetch
+```javascript
+fetch('https://goodfood-beta.trunksys.com/channels')
+    .then(function(response) {
+        return response.json();
+    }).then(function(myJson) {
+        console.log(myJson);
+    }
+);
+```
 
-- message ： [Message to post] **required**
-- channel ： [Channel to post] **optional** (default: #test-bot)
-  <br>有四種 ： '#channel-name' ／ 'channelId' 、 '@user-name(not-display-name)' ／ 'user-id' 
-- botname ： [Botname to show] **optional** (default: goodfood-bot)
-- iconurl ： [Iconurl to show] **optional** (default: https://goodfood-beta.trunksys.com/images/sushi.jpg)
-- attachments ： [yes] **optional** (default: null)
-- order_id ： [order_id] **optional** (default: null)
-- order_store ： [order_store] **optional** (default: null)
-- order_url ： [order_url] **optional** (default: null)
+### Response
+
+```json
+{
+    "ok": true, 
+    "channels": 
+    [
+        {
+            "id": "C7756DN4S", 
+            "name": "general"
+        },
+        {
+            "id": "C781W41U6", 
+            "name": "random"
+        },
+        {
+            "id": "C97GD0QR5", 
+            "name": "test-bot"
+        }
+    ]
+}
+```
+
 <hr>
 
 ### Command
 
 - /cheese
-- /bind [your goodfood account]
-- /unbind
 
 ### Test API
 
@@ -108,11 +121,6 @@ this.$axios({
 [yourname]是最[ooxx]的人
   每日占卜~
 ```
-
-bind 為測試綁定 goodfood 與 slack 帳號<br>
-如成功會將 slack 帳號與輸入的帳號存在伺服器端<br>
-用資料庫來比對是否已經綁定帳號<br>
-unbind 會將輸入指令的人所綁定的帳號刪除<br>
 
 <hr>
 
