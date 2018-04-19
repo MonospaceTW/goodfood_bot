@@ -43,7 +43,7 @@ fetch(  'https://goodfood-beta.trunksys.com/message',
 
 ### Parameters
 
-![Parameters](./assets/2.PNG)
+![Parameters](./assets/p.PNG)
 
 ### Response
 
