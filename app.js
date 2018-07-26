@@ -9,6 +9,7 @@ const expressLayouts = require('express-ejs-layouts');
 const app = express();
 const routes = require('./routes/index');
 const api = require('./routes/api');
+const swagger = require('./routes/swagger');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -25,8 +26,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use('/',swagger);
 app.use('/', routes);
 app.use('/api', api);
+
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

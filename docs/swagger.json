@@ -1,0 +1,42 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Goodfood API",
+        "description": "Slack bot 訂便當系統",
+        "license": {
+            "name": "MIT",
+            "url": "http://opensource.org/licenses/MIT"
+        }
+    },
+    "tags": [
+        {
+            "name": "message",
+            "description": "Everything about message"
+        }
+    ],
+    "host": "goodfood-beta.trunksys.com",
+    "basePath": "/",
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+    },
+    "definitions": {
+        "Message": {
+            "type": "object",
+            "properties": {
+                "ok": {
+                    "type": "boolean"
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "api_key": {
+            "type": "apiKey",
+            "in": "header",
+            "name": "Authorization"
+        }
+    }
+}
