@@ -1,41 +1,12 @@
-const models = require('../models');
 const express = require('express');
-
 const router = express.Router();
+const ExampleController = require('../controller/example');
+const FirebaseController = require('../controller/firebase');
+const OauthController = require('../controller/oauth');
 
-// 首頁
-router.get('/', async (req, res) => {
-  const users = await models.User.findAll();
-
-  return res.render('index', {
-    title: 'Express Example',
-    data: {
-      users,
-    },
-  });
-});
-
-// 使用者清單
-router.get('/users', async (req, res) => {
-  const users = await models.User.findAll();
-
-  return res.render('user', {
-    title: 'User list',
-    data: {
-      users,
-    },
-  });
-});
-
-router.post('/test', async (req, res) => {
-  console.log('req = %j', req.body);
-  const cl = firebaseService.testConsole();
-  const { user_name } = req.body;
-  console.log(cl);
-  const test = {
-    text: `${user_name} test`
-  };
-  return res.json(test);
-});
+router.get('/',ExampleController.index);
+router.get('/users', ExampleController.users);
+router.post('/test', FirebaseController.test);
+router.get('/oauth', OauthController.auth);
 
 module.exports = router;
