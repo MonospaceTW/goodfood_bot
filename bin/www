@@ -8,11 +8,13 @@ var app = require('../app');
 var debug = require('debug')('express-sequelize');
 var http = require('http');
 var models = require('../models');
+const Services = require('../services');
 
 /**
  * Get port from environment and store in Express.
  */
-
+global.models = require('../models');
+global.services = new Services();
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
   /**

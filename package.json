@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www localhost 3000",
+    "start": "nodemon ./bin/www localhost 4000",
     "test": "npm run test-unit && npm run test-integration",
     "test-unit": "cross-env NODE_ENV=test ./node_modules/.bin/mocha test/unit/*.test.js",
     "test-integration": "cross-env NODE_ENV=test ./node_modules/.bin/mocha test/integration/*.test.js",
@@ -12,11 +12,14 @@
   "dependencies": {
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
+    "config": "^1.31.0",
     "cookie-parser": "^1.4.3",
     "debug": "^3.1.0",
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "express-ejs-layouts": "^2.3.1",
+    "firebase-admin": "^5.13.1",
+    "lodash": "^4.17.10",
     "morgan": "^1.7.0",
     "mysql": "^2.15.0",
     "nodemon": "^1.14.10",
