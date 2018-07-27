@@ -204,7 +204,7 @@ module.exports = class firebase {
         });
     }
 
-    testConsole() {
-        console.log("test Service");
+    async findUserId(id) {
+        return await models.User.find(id)
     }
 };
