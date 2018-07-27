@@ -1,0 +1,39 @@
+{
+  "development": {
+    "dialect": "sqlite",
+    "storage": "./db.development.sqlite",
+    "drop": true
+  },
+  "test": {
+    "dialect": "sqlite",
+    "storage": ":memory:",
+    "drop": true
+  },
+  "production": {
+    "username": "process.env.DB_USERNAME",
+    "password": "process.env.DB_PASSWORD",
+    "database": "process.env.DB_NAME",
+    "host": "process.env.DB_HOSTNAME",
+    "dialect": "mysql",
+    "drop": false
+  },
+  "goodfoodAdmin":{
+    "type": "type",
+    "project_id": "project_id",
+    "private_key_id": "private_key_id",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nprivate_key\n-----END PRIVATE KEY-----\n",
+    "client_email": "client_email",
+    "client_id": "client_id",
+    "auth_uri": "auth_uri",
+    "token_uri": "token_uri",
+    "auth_provider_x509_cert_url": "auth_provider_x509_cert_url",
+    "client_x509_cert_url": "client_x509_cert_url"
+    // you can download this config from your firebase
+  },
+  "slack":{
+    "BOT_TOKEN" : "BOT_TOKEN",
+    "CLIENT_ID" : "CLIENT_ID",
+    "CLIENT_SECRET" : "CLIENT_SECRET",
+    "VERIFICATION_TOKEN" : "VERIFICATION_TOKEN"
+  }
+}
