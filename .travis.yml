@@ -10,5 +10,5 @@ branches:
   only:
     - jimmy
 
-# script:
-#   - npm start
+script:
+  - npm test
