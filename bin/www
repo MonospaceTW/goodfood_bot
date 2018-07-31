@@ -9,6 +9,7 @@ var debug = require('debug')('express-sequelize');
 var http = require('http');
 var models = require('../models');
 const Services = require('../services');
+const modelBoot = require('../boostrap/models');
 
 /**
  * Get port from environment and store in Express.
@@ -22,11 +23,13 @@ app.set('port', port);
    */
 var server = http.createServer(app);
 
-models.sequelize.sync().then(function() {
+models.sequelize.sync().then(async function() {
+  await modelBoot.resetDb();
   /**
    * Listen on provided port, on all network interfaces.
    */
-  server.listen(port, function() {
+  server.listen(port, async function() {
+    await modelBoot.init();
     debug('Express server listening on port ' + server.address().port);
   });
   server.on('error', onError);
