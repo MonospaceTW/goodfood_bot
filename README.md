@@ -1,4 +1,4 @@
-# Express Example
+# GoodFood Server [![Build Status](https://travis-ci.com/MonospaceTW/goodfood_bot.svg?branch=master)](https://travis-ci.com/MonospaceTW/goodfood_bot)
 
 This repository demonstrates the usage of Sequelize within an [Express](https://expressjs.com) application.
 The implemented logic is a simple task tracking tool.
