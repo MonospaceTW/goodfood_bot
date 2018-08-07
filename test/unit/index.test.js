@@ -8,8 +8,12 @@ describe('models/index', function () {
     expect(models.Task).to.be.ok();
   });
 
-  it.only('returns the user model', function () {
+  it('returns the user model', function () {
     var models = require('../../models');
     expect(models.User).to.be.ok();
+  });
+  it('returns the food model', function () {
+    var models = require('../../models');
+    expect(models.Food).to.be.ok();
   });
 });
