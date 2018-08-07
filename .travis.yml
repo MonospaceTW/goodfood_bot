@@ -8,3 +8,8 @@ cache:
 
 script:
   - npm test
+
+ notifications:
+  slack:
+    rooms:
+      - monospace-work:O873oeqMaf63dAJAtBzykumL#ci-travis
