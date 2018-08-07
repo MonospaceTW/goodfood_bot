@@ -13,4 +13,4 @@ script:
 notifications:
   slack:
     rooms:
-      - monospace-work:O873oeqMaf63dAJAtBzykumL#ci-travis
+      - monospace-work:kCqGSoYVjNuUQKGYvfOkRNiZ#ci-travis
