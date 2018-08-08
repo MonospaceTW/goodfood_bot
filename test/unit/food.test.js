@@ -9,11 +9,12 @@ describe('models/food', function () {
   });
 
   beforeEach(function () {
+    // console.log("beforeEach!!");
     this.User = require('../../models').User;
     this.Food = require('../../models').Food;
   });
 
-  describe('create', function () {
+  it('create', function () {
     it('creates a food', async function () {
       const data = {
         name: 'a price',
@@ -25,71 +26,95 @@ describe('models/food', function () {
     });
   });
 
-  describe('find one', function () {
+  it('find one', function () {
     let food;
-    const keyword = 'ggg';
+    const keyword = 'beef';
     const data = {
       name: keyword,
       price: 100,
     };
-    before(function () {
+    before(async function () {
       // create a food before run test
+      await this.Food.create(data);
     });
 
-    it('find a food with where', function () {
-      const findFood;
+    it('find a food with where', async function () {
+      const findFood = await this.Food.findOne({
+        where: {
+          name: 'beef'
+        }
+      })
       
       expect(findFood.name).to.equal(keyword);
     });
   });
 
-  describe('find all', function () {
+  it('find all', function () {
     let foods = [];
-    const keyword = 'abc';
+    const keyword = ['chicken','hanberger', 'applepie'];
     const data1 = {
-      name: keyword,
-      price: 100,
+      name: keyword[0],
+      price: 80,
     };
     const data2 = {
-      name: '222',
+      name: keyword[1],
       price: 100,
     };
     const data3 = {
-      name: '333',
-      price: 100,
+      name: keyword[2],
+      price: 50,
+    };
+    const dataArray = [
+      data1, data2 , data3
+    ];
+
+    const options = {
+      where: {
+        name: keyword[0],
+        name: keyword[1],
+        name: keyword[2]
+      }
     };
 
-    before(function () {
+    before(async function () {
       // create 3 foods and push into foods array.
+      console.log('this=>', this);
+      // await this.Food.create(data1);
+      await this.Food.bulkCreate(dataArray);
     });
 
-    it('find all food', function () {
-      const findFoods;
+    it.only('find all food', async function () {
+      const findFoods = await this.Food.findAll();
+      // console.log('findFoods=>', findFoods);
       expect(findFoods.lengths).to.greaterThan(2);
     });
 
-    it('find all with where', function () {
-      const findFoods;
+    it('find all with where', async function () {
+      const findFoods = await this.Food.findAll(options);
       expect(findFoods.length).to.equal(1);
     });
   });
 
-
-  describe('destroy one', function () {
+  it('destroy one', function () {
     let food;
     const keyword = 'destroydestroy';
+    let options = {
+      where: {
+        name: keyword
+      }
+    };
     const data = {
       name: keyword,
       price: 100,
     };
-    before(function () {
+    before(async function () {
       // create a food before run test
+      await this.Food.create(data);
     });
 
-    it('delete a food with where', function () {
-      const deleteFood;
-      
-      const findDeleteFood;
+    it('delete a food with where', async function () {
+      const deleteFood = await this.Food.destroy(options);
+      const findDeleteFood = await this.Food.findOne(options);
       expect(findDeleteFood).to.equal(null);
     });
   });
