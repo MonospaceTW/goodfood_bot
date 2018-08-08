@@ -1,3 +1,5 @@
+require('../models').sequelize.sync();
+
 const FireBaseService = require('./firebase');
 
 module.exports = class Services {
