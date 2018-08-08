@@ -37,9 +37,18 @@ describe('models/food', () => {
     it('update a food', async function () {
       const data = {
         name: 'a price',
-        price: 100,
+        price: 1000,
       };
-      let updatedFood;
+      const options = {
+        where: {
+          name : 'abc',
+          price : 100
+        }
+      };
+      // console.log('food=>',food);
+      let updatedFood = await food.update(data, options);
+      
+      // console.log('updatedFood.name=>',updatedFood.name);
       expect(updatedFood.name).to.equal(data.name);
       expect(updatedFood.price).to.equal(data.price);
     });
