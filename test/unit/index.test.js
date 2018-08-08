@@ -12,4 +12,9 @@ describe('models/index', function () {
     var models = require('../../models');
     expect(models.User).to.be.ok();
   });
+
+  it('returns the food model', function () {
+    var models = require('../../models');
+    expect(models.Food).to.be.ok();
+  });
 });
