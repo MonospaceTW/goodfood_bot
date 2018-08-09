@@ -4,9 +4,9 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www localhost 3000",
-    "test": "npm run test-unit && npm run test-integration",
-    "test-unit": "cross-env NODE_ENV=test ./node_modules/.bin/mocha test/unit/*.test.js",
     "test-integration": "cross-env NODE_ENV=test ./node_modules/.bin/mocha test/integration/*.test.js",
+    "test": "cross-env NODE_ENV=test  ./node_modules/.bin/istanbul cover _mocha --- --opts ./test/mocha.opts",
+    "test-unit": "cross-env NODE_ENV=test ./node_modules/.bin/mocha test/unit/*/*.test.js",
     "production": "cross-env NODE_ENV=production node ./bin/www"
   },
   "dependencies": {
@@ -21,6 +21,7 @@
     "express": "^4.16.2",
     "express-ejs-layouts": "^2.3.1",
     "firebase-admin": "^5.13.1",
+    "istanbul": "^0.4.5",
     "lodash": "^4.17.10",
     "morgan": "^1.7.0",
     "mysql": "^2.15.0",
@@ -31,13 +32,17 @@
     "serve-favicon": "~2.5.0",
     "sqlite3": "^4.0.2",
     "swagger-tools": "^0.10.4",
-    "swagger-ui": "^3.17.5"
+    "swagger-ui": "^3.17.6"
   },
   "devDependencies": {
     "cross-env": "^5.2.0",
-    "eslint": "^5.2.0",
+    "eslint": "^5.3.0",
     "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^3.8.0",
+    "eslint-plugin-standard": "^3.1.0",
     "expect.js": "^0.3.1",
     "mocha": "^5.2.0",
     "supertest": "^3.1.0"

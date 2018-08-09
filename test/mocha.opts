@@ -1,0 +1,5 @@
+-t 500000
+--recursive ./test/bootstrap.test.js
+--recursive ./test/unit/*.test.js
+--recursive ./test/unit/**/*.test.js
+--exit
