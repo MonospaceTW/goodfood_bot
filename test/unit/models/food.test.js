@@ -1,9 +1,9 @@
 'use strict';
 
 var expect = require('expect.js');
+// var Sequelize = require('sequelize');
 
 describe('models/food', () => {
-
   before(function () {
   });
 
@@ -41,13 +41,13 @@ describe('models/food', () => {
       };
       const options = {
         where: {
-          name : 'abc',
-          price : 100
-        }
+          name: 'abc',
+          price: 100,
+        },
       };
       // console.log('food=>',food);
       let updatedFood = await food.update(data, options);
-      
+
       // console.log('updatedFood.name=>',updatedFood.name);
       expect(updatedFood.name).to.equal(data.name);
       expect(updatedFood.price).to.equal(data.price);
@@ -55,7 +55,7 @@ describe('models/food', () => {
   });
 
   describe('Find one model data', function () {
-    let food;
+    // let food;
     const keyword = 'beef';
     const data = {
       name: keyword,
@@ -69,17 +69,17 @@ describe('models/food', () => {
     it('find a food with where', async function () {
       const findFood = await models.Food.findOne({
         where: {
-          name: 'beef'
-        }
-      })
-      
+          name: 'beef',
+        },
+      });
+
       expect(findFood.name).to.equal(keyword);
     });
   });
 
   describe('Find all model data', function () {
-    let foods = [];
-    const keyword = ['chicken','hanberger', 'applepie'];
+    // let foods = [];
+    const keyword = [ 'chicken', 'hanberger', 'applepie', ];
     const data1 = {
       name: keyword[0],
       price: 80,
@@ -93,16 +93,8 @@ describe('models/food', () => {
       price: 50,
     };
     const dataArray = [
-      data1, data2 , data3
+      data1, data2, data3,
     ];
-
-    const options = {
-      where: {
-        name: keyword[0],
-        name: keyword[1],
-        name: keyword[2]
-      }
-    };
 
     before(async function () {
       // create 3 foods and push into foods array.
@@ -116,18 +108,29 @@ describe('models/food', () => {
     });
 
     it('find all with where', async function () {
-      const findFoods = await models.Food.findAll(options);
+      let target = keyword[0];
+      let findFoods = await models.Food.findAll({ where: { name: `${target}`, }, });
+      // console.log('findFoods.name=>', findFoods[0].name);
+      expect(findFoods.length).to.equal(1);
+      target = keyword[1];
+      // console.log('target=>', target);
+      findFoods = await models.Food.findAll({ where: { name: `${target}`, }, });
+      // console.log('findFoods.name=>', findFoods[0].name);
+      expect(findFoods.length).to.equal(1);
+      target = keyword[2];
+      findFoods = await models.Food.findAll({ where: { name: `${target}`, }, });
+      // console.log('findFoods.name=>', findFoods[0].name);
       expect(findFoods.length).to.equal(1);
     });
   });
 
   describe('Destroy model data', function () {
-    let food;
+    // let food;
     const keyword = 'destroydestroy';
     let options = {
       where: {
-        name: keyword
-      }
+        name: keyword,
+      },
     };
     const data = {
       name: keyword,
@@ -139,7 +142,8 @@ describe('models/food', () => {
     });
 
     it('delete a food with where', async function () {
-      const deleteFood = await models.Food.destroy(options);
+      // const deleteFood = await models.Food.destroy(options);
+      await models.Food.destroy(options);
       const findDeleteFood = await models.Food.findOne(options);
       expect(findDeleteFood).to.equal(null);
     });
