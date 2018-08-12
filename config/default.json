@@ -1,15 +1,18 @@
 {
   "development": {
-    "username": "process.env.DB_USERNAME",
-    "password": "process.env.DB_PASSWORD",
-    "database": "process.env.DB_NAME",
-    "host": "process.env.DB_HOSTNAME",
+    "username": "root",
+    "password": "root",
+    "database": "GoodFood",
+    "host": "localhost",
     "dialect": "mysql",
     "drop": true
   },
   "test": {
-    "dialect": "sqlite",
-    "storage": ":memory:",
+    "username": "root",
+    "password": "root",
+    "database": "GoodFood-test",
+    "host": "localhost",
+    "dialect": "mysql",
     "drop": true
   },
   "production": {
@@ -38,5 +41,11 @@
     "CLIENT_ID" : "CLIENT_ID",
     "CLIENT_SECRET" : "CLIENT_SECRET",
     "VERIFICATION_TOKEN" : "VERIFICATION_TOKEN"
+  },
+  "jwt": "Monospace",
+  "auth": {
+    "refreshTokenTtl": 216000, // 60 days
+    "accessTokenTtl": 3600,
+    "expiresIn": 3600
   }
 }

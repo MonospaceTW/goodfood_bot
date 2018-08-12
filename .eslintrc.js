@@ -14,5 +14,6 @@ module.exports = {
     "describe": true,
     "it": true,
     "models": true,
+    "config": true
   },
 };
