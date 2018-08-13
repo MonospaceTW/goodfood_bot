@@ -37,7 +37,7 @@ describe('models/food', () => {
           price: 100,
         },
       };
-      let updatedFood = await food.update(data, options);
+      const updatedFood = await food.update(data, options);
       expect(updatedFood.name).to.equal(data.name);
       expect(updatedFood.price).to.equal(data.price);
     });
@@ -98,18 +98,12 @@ describe('models/food', () => {
     it('find all with where', async function () {
       let findFoods = await models.Food.findAll({ where: { name: `${firstKeyword}`, }, });
       expect(findFoods.length).to.equal(1);
-
-      findFoods = await models.Food.findAll({ where: { name: `${secondKeyword}`, }, });
-      expect(findFoods.length).to.equal(1);
-
-      findFoods = await models.Food.findAll({ where: { name: `${thirdKeyword}`, }, });
-      expect(findFoods.length).to.equal(1);
     });
   });
 
   describe('Destroy model data', function () {
     const keyword = 'destroydestroy';
-    let options = {
+    const options = {
       where: {
         name: keyword,
       },
