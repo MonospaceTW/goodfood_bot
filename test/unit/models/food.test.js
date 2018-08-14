@@ -1,7 +1,5 @@
 'use strict';
 
-var expect = require('expect.js');
-
 describe('models/food', () => {
 
   before(function () {

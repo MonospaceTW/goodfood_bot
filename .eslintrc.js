@@ -15,5 +15,7 @@ module.exports = {
     "describe": true,
     "it": true,
     "models": true,
+    "expect": true,
+    "faker": true,
   },
 };
