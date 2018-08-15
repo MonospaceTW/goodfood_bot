@@ -6,7 +6,7 @@ module.exports = {
   "extends": "standard",
   "rules": {
     "semi": ['error', "always"],
-    "comma-dangle": ['error', "always"],
+    "comma-dangle": ['error', "only-multiline"],
   },
   "globals": {
     "after": true,
