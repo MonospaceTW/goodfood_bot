@@ -8,7 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     provider: {
       type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 0,
+      defaultValue: 2,
     },
     passwordHash: {
       type: DataTypes.STRING,
