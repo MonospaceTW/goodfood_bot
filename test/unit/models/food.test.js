@@ -96,7 +96,7 @@ describe('models/food', () => {
     });
 
     it('find all with where', async function () {
-      let findFoods = await models.Food.findAll({ where: { name: `${firstKeyword}`, }, });
+      let findFoods = await models.Food.findAll({ where: { name: firstKeyword }, });
       expect(findFoods.length).to.equal(1);
     });
   });
