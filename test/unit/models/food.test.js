@@ -1,7 +1,5 @@
 'use strict';
 
-const expect = require('expect.js');
-
 describe('models/food', () => {
   describe('Create model data', function () {
     it('creates a food', async function () {

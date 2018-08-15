@@ -1,12 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const ExampleController = require('../controller/example');
-const FirebaseController = require('../controller/firebase');
-const OauthController = require('../controller/oauth');
+// const OauthController = require('../controller/oauth');
 
-router.get('/',ExampleController.index);
-router.get('/users', ExampleController.users);
-router.post('/test', FirebaseController.test);
-router.get('/oauth', OauthController.auth);
+// router.get('/oauth', OauthController.auth);
+
+router.get('/spec', (req, res) => {
+  console.log('\n\n\n\n!!!!!!!!!!!!!\n\n\n\n');
+  return res.send({
+    data: 'test',
+  });
+});
 
 module.exports = router;

@@ -2,16 +2,18 @@ module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     nickName: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: false,
     },
     email: {
       type: DataTypes.STRING,
-      allowNull: false
-    }});
-    
-    User.associate = function (models) {
-      User.hasMany(models.UserOrder);
-      User.hasMany(models.Passport);
-    }
+      allowNull: false,
+      unique: true,
+    },
+  });
+
+  User.associate = function (models) {
+    User.hasMany(models.UserOrder);
+    User.hasMany(models.Passport);
+  };
   return User;
 };
