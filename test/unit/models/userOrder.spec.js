@@ -170,9 +170,9 @@ describe(`models/${modelName}`, () => {
   describe('Associated model data', () => {
     it('Create a model with associated data using include', async () => {
       // TODO:
-      // 1. create a user with 3 userOrders.
+      // 1. create a User with 3 UserOrders.
       // 2. use model.create with include.
-      // 3. use data as user data, use `fakeData.findAll` as include userOrders.
+      // 3. use data as user data, use `fakeData.findAll` as include UserOrders.
       const userData = {
         nickName: 'Associated',
         email: 'a@b.c',
@@ -186,9 +186,9 @@ describe(`models/${modelName}`, () => {
 
     it('Create a model with associated data using set()', async () => {
       // TODO:
-      // 1. create a user and use set() method to set 1 associated model data.
+      // 1. create a User and use set() method to set 1 associated model data.
       // 2. use model.findOne() with include to get model data with associated data.
-      // 3. use data as user data, use `fakeData.create` as associated model data.
+      // 3. use data as User data, use `fakeData.create` as associated model data.
       const data = {
         nickName: 'Associated',
         email: 'a@b.c',

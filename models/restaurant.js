@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    imgUrl: DataTypes.STRING,
+    imageUrl: DataTypes.STRING,
     address: DataTypes.STRING,
     orderInUnit: {
       type: DataTypes.INTEGER,
@@ -32,7 +32,7 @@ module.exports = (sequelize, DataTypes) => {
 
   Restaurant.associate = function (models) {
     Restaurant.hasMany(models.Food);
-    Restaurant.hasMany(models.Order);
+    Restaurant.hasMany(models.GroupOrder);
   };
   return Restaurant;
 };

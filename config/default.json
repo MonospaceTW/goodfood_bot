@@ -10,7 +10,8 @@
   "test": {
     "dialect": "sqlite",
     "storage": ":memory:",
-    "drop": true
+    "drop": true,
+    "logging": false
   },
   "production": {
     "username": "process.env.DB_USERNAME",

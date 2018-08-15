@@ -1,6 +1,10 @@
 module.exports = (sequelize, DataTypes) => {
   const UserOrder = sequelize.define('UserOrder', {
-    amount: {
+    price: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    count: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
@@ -13,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
 
   UserOrder.associate = function (models) {
     UserOrder.belongsTo(models.User);
-    UserOrder.belongsTo(models.Order);
+    UserOrder.belongsTo(models.GroupOrder);
     UserOrder.belongsTo(models.Food);
   };
   return UserOrder;
