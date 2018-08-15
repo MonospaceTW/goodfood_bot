@@ -3,45 +3,45 @@
 const modelName = 'Restaurant';
 const fakeData = {
   create: {
-    nickName: faker.name.findName(),
-    email: faker.internet.email(),
+    name: faker.name.findName(),
+    address: faker.address.streetAddress(),
   },
   update: {
-    nickName: faker.name.findName(),
-    email: faker.internet.email(),
+    name: faker.name.findName(),
+    address: faker.address.streetAddress(),
   },
   updateNewData: {
-    nickName: faker.name.findName(),
-    email: faker.internet.email(),
+    name: faker.name.findName(),
+    address: faker.address.streetAddress(),
   },
   updateNewData2: {
-    nickName: faker.name.findName(),
-    email: faker.internet.email(),
+    name: faker.name.findName(),
+    address: faker.address.streetAddress(),
   },
   findOne: {
-    nickName: 'faker.name.findName()',
-    email: faker.internet.email(),
+    name: 'keyword',
+    address: faker.address.streetAddress(),
   },
   findAll: [
     {
-      nickName: 'faker.name.findName()',
-      email: faker.internet.email(),
+      name: 'keyword',
+      address: faker.address.streetAddress(),
     },
     {
-      nickName: 'faker.name.findName()',
-      email: faker.internet.email(),
+      name: 'keyword',
+      address: faker.address.streetAddress(),
     },
     {
-      nickName: 'faker.name.findName()',
-      email: faker.internet.email(),
+      name: 'keyword',
+      address: faker.address.streetAddress(),
     },
   ],
   destroy: {
-    nickName: faker.name.findName(),
-    email: faker.internet.email(),
+    name: faker.name.findName(),
+    address: faker.address.streetAddress(),
   },
   keyword: {
-    nickName: 'faker.name.findName()',
+    name: 'keyword',
   },
 };
 
@@ -164,6 +164,50 @@ describe(`models/${modelName}`, () => {
       let findDeleteModel = null;
       expect(deleteModel).to.equal(1);
       expect(findDeleteModel).to.equal(null);
+    });
+  });
+
+  describe('Associated model data', () => {
+    it('Create a model with associated data using include', async () => {
+      // TODO:
+      // 1. create a restaurant with 3 foods.
+      // 2. use model.create with include.
+      // 3. use `fakeData.create` as restaurant data, use `data` as include foods.
+      const data = [{
+        name: 'big_macx1',
+        price: 150,
+      }, {
+        name: 'big_macx2',
+        price: 300,
+      }, {
+        name: 'big_macx3',
+        price: 400,
+      }];
+      let restaurant = null;
+
+      expect(restaurant.name).to.be.an(fakeData.create.name);
+      expect(restaurant.address).to.be.an(fakeData.create.address);
+      expect(restaurant.UserOrders.length).to.equal(data.length);
+    });
+
+    it('Create a model with associated data using set()', async () => {
+      // TODO:
+      // 1. create a restaurant and use set() method to set 1 associated model data.
+      // 2. use model.findOne() with include to get model data with associated data.
+      // 3. use data as food data, use `fakeData.create` as restaurant data.
+      const data = {
+        name: 'big_mac',
+        price: 150,
+      };
+      let createdRest = null;
+      let food = null;
+      let findRestWithFood = null;
+
+      expect(findRestWithFood.name).to.be.an(fakeData.create.name);
+      expect(findRestWithFood.address).to.be.an(fakeData.create.address);
+      expect(findRestWithFood.Foods.length).to.equal(1);
+      expect(findRestWithFood.UserOrders[0].amount).to.equal(data.name);
+      expect(findRestWithFood.UserOrders[0].remark).to.equal(data.price);
     });
   });
 });

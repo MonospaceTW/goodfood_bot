@@ -166,4 +166,48 @@ describe(`models/${modelName}`, () => {
       expect(findDeleteModel).to.equal(null);
     });
   });
+
+  describe('Associated model data', () => {
+    it('Create a model with associated data using include', async () => {
+      // TODO:
+      // 1. create a User with 3 passports.
+      // 2. use model.create with include.
+      // 3. use data as Passport data, use `fakeData.create` as user data.
+      const data = [{
+        token: '1',
+        workspaceName: 'ws1',
+      }, {
+        token: '2',
+        workspaceName: 'ws2',
+      }, {
+        token: '3',
+        workspaceName: 'ws3',
+      }];
+      let user = null;
+
+      expect(user.nickName).to.be.an(fakeData.create.name);
+      expect(user.email).to.be.an(fakeData.create.address);
+      expect(user.Passports.length).to.equal(data.length);
+    });
+
+    it('Create a model with associated data using set()', async () => {
+      // TODO:
+      // 1. create a User and use set() method to set 1 associated model data.
+      // 2. use model.findOne() with include to get model data with associated data.
+      // 3. use data as Passport data, use `fakeData.create` as user data.
+      const data = {
+        token: '1',
+        workspaceName: 'ws1',
+      };
+      let user = null;
+      let passport = null;
+      let userWithPassport = null;
+
+      expect(userWithPassport.nickName).to.be.an(fakeData.create.nickName);
+      expect(userWithPassport.email).to.be.an(fakeData.create.email);
+      expect(userWithPassport.Passports.length).to.equal(1);
+      expect(userWithPassport.Passports[0].amount).to.equal(data.name);
+      expect(userWithPassport.Passports[0].remark).to.equal(data.price);
+    });
+  });
 });

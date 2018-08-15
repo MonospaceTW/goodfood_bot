@@ -166,4 +166,42 @@ describe(`models/${modelName}`, () => {
       expect(findDeleteModel).to.equal(null);
     });
   });
+
+  describe('Associated model data', () => {
+    it('Create a model with associated data using include', async () => {
+      // TODO:
+      // 1. create a user with 3 userOrders.
+      // 2. use model.create with include.
+      // 3. use data as user data, use `fakeData.findAll` as include userOrders.
+      const userData = {
+        nickName: 'Associated',
+        email: 'a@b.c',
+      };
+      let user = null;
+
+      expect(user.nickName).to.be.an(userData.nickName);
+      expect(user.email).to.be.an(userData.email);
+      expect(user.UserOrders.length).to.equal(3);
+    });
+
+    it('Create a model with associated data using set()', async () => {
+      // TODO:
+      // 1. create a user and use set() method to set 1 associated model data.
+      // 2. use model.findOne() with include to get model data with associated data.
+      // 3. use data as user data, use `fakeData.create` as associated model data.
+      const data = {
+        nickName: 'Associated',
+        email: 'a@b.c',
+      };
+      let createdUser = null;
+      let userOrder = null;
+      let findUserWithAssociatedData = null;
+
+      expect(findUserWithAssociatedData.nickName).to.be.an(data.nickName);
+      expect(findUserWithAssociatedData.email).to.be.an(data.email);
+      expect(findUserWithAssociatedData.UserOrders.length).to.equal(1);
+      expect(findUserWithAssociatedData.UserOrders[0].amount).to.equal(fakeData.create.amount);
+      expect(findUserWithAssociatedData.UserOrders[0].remark).to.equal(fakeData.create.remark);
+    });
+  });
 });
