@@ -167,7 +167,7 @@ describe(`models/${modelName}`, () => {
     });
   });
 
-  describe('Associated model data', () => {
+  describe.only('Associated model data', () => {
     it('Create a model with associated data using include', async () => {
       // TODO:
       // 1. create a User with 3 passports.
@@ -176,17 +176,20 @@ describe(`models/${modelName}`, () => {
       const data = [{
         token: '1',
         workspaceName: 'ws1',
+        passwordHash: 'ws1ws1ws1',
       }, {
         token: '2',
         workspaceName: 'ws2',
+        passwordHash: 'ws2ws2ws2',
       }, {
         token: '3',
         workspaceName: 'ws3',
+        passwordHash: 'ws3ws3ws3',
       }];
       let user = null;
 
-      expect(user.nickName).to.be.an(fakeData.create.name);
-      expect(user.email).to.be.an(fakeData.create.address);
+      expect(user.nickName).to.be.equal(fakeData.create.nickName);
+      expect(user.email).to.be.equal(fakeData.create.email);
       expect(user.Passports.length).to.equal(data.length);
     });
 
@@ -198,13 +201,14 @@ describe(`models/${modelName}`, () => {
       const data = {
         token: '1',
         workspaceName: 'ws1',
+        passwordHash: 'ws1ws1ws1',
       };
       let user = null;
       let passport = null;
       let userWithPassport = null;
 
-      expect(userWithPassport.nickName).to.be.an(fakeData.create.nickName);
-      expect(userWithPassport.email).to.be.an(fakeData.create.email);
+      expect(userWithPassport.nickName).to.be.equal(fakeData.create.nickName);
+      expect(userWithPassport.email).to.be.equal(fakeData.create.email);
       expect(userWithPassport.Passports.length).to.equal(1);
       expect(userWithPassport.Passports[0].amount).to.equal(data.name);
       expect(userWithPassport.Passports[0].remark).to.equal(data.price);

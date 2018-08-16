@@ -185,8 +185,8 @@ describe(`models/${modelName}`, () => {
       }];
       let restaurant = null;
 
-      expect(restaurant.name).to.be.an(fakeData.create.name);
-      expect(restaurant.address).to.be.an(fakeData.create.address);
+      expect(restaurant.name).to.be.equal(fakeData.create.name);
+      expect(restaurant.address).to.be.equal(fakeData.create.address);
       expect(restaurant.UserOrders.length).to.equal(data.length);
     });
 
@@ -203,8 +203,8 @@ describe(`models/${modelName}`, () => {
       let food = null;
       let findRestWithFood = null;
 
-      expect(findRestWithFood.name).to.be.an(fakeData.create.name);
-      expect(findRestWithFood.address).to.be.an(fakeData.create.address);
+      expect(findRestWithFood.name).to.be.equal(fakeData.create.name);
+      expect(findRestWithFood.address).to.be.equal(fakeData.create.address);
       expect(findRestWithFood.Foods.length).to.equal(1);
       expect(findRestWithFood.UserOrders[0].amount).to.equal(data.name);
       expect(findRestWithFood.UserOrders[0].remark).to.equal(data.price);

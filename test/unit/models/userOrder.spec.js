@@ -179,8 +179,8 @@ describe(`models/${modelName}`, () => {
       };
       let user = null;
 
-      expect(user.nickName).to.be.an(userData.nickName);
-      expect(user.email).to.be.an(userData.email);
+      expect(user.nickName).to.be.equal(userData.nickName);
+      expect(user.email).to.be.equal(userData.email);
       expect(user.UserOrders.length).to.equal(3);
     });
 
@@ -197,8 +197,8 @@ describe(`models/${modelName}`, () => {
       let userOrder = null;
       let findUserWithAssociatedData = null;
 
-      expect(findUserWithAssociatedData.nickName).to.be.an(data.nickName);
-      expect(findUserWithAssociatedData.email).to.be.an(data.email);
+      expect(findUserWithAssociatedData.nickName).to.be.equal(data.nickName);
+      expect(findUserWithAssociatedData.email).to.be.equal(data.email);
       expect(findUserWithAssociatedData.UserOrders.length).to.equal(1);
       expect(findUserWithAssociatedData.UserOrders[0].amount).to.equal(fakeData.create.amount);
       expect(findUserWithAssociatedData.UserOrders[0].remark).to.equal(fakeData.create.remark);
