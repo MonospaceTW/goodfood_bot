@@ -210,8 +210,9 @@ describe(`models/${modelName}`, () => {
       expect(userWithPassport.nickName).to.be.equal(fakeData.create.nickName);
       expect(userWithPassport.email).to.be.equal(fakeData.create.email);
       expect(userWithPassport.Passports.length).to.equal(1);
-      expect(userWithPassport.Passports[0].amount).to.equal(data.name);
-      expect(userWithPassport.Passports[0].remark).to.equal(data.price);
+      expect(userWithPassport.Passports[0].token).to.equal(data.token);
+      expect(userWithPassport.Passports[0].workspaceName).to.equal(data.workspaceName);
+      expect(userWithPassport.Passports[0].passwordHash).to.equal(data.passwordHash);
     });
   });
 });
