@@ -1,4 +1,4 @@
-module.exports = {
+module.exports = class Example {
   async index (req, res) {
     const users = await models.User.findAll();
 
@@ -8,7 +8,7 @@ module.exports = {
         users
       }
     });
-  },
+  }
   async users (req, res) {
     const users = await models.User.findAll();
 

@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const ExampleController = require('../controller/example');
-const OauthController = require('../controller/oauth');
 
-router.get('/', ExampleController.index);
-router.get('/users', ExampleController.users);
-router.get('/oauth', OauthController.auth);
+this.exampleController = new ExampleController();
+
+router.get('/', this.exampleController.index);
+router.get('/users', this.exampleController.users);
 
 module.exports = router;

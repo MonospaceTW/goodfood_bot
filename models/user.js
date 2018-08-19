@@ -6,12 +6,17 @@ module.exports = (sequelize, DataTypes) => {
     },
     email: {
       type: DataTypes.STRING,
+      allowNull: false,
+      unique: true
+    },
+    passwordHash: {
+      type: DataTypes.STRING,
       allowNull: false
     }});
-    
-    User.associate = function (models) {
-      User.hasMany(models.UserOrder);
-      User.hasMany(models.Passport);
-    }
+
+  User.associate = function (models) {
+    User.hasMany(models.UserOrder);
+    User.hasMany(models.Passport);
+  };
   return User;
 };
