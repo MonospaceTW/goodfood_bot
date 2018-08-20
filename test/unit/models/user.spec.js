@@ -6,6 +6,14 @@ const fakeData = {
     nickName: faker.name.findName(),
     email: faker.internet.email(),
   },
+  create2: {
+    nickName: faker.name.findName(),
+    email: faker.internet.email(),
+  },
+  create3: {
+    nickName: faker.name.findName(),
+    email: faker.internet.email(),
+  },
   update: {
     nickName: faker.name.findName(),
     email: faker.internet.email(),
@@ -172,7 +180,7 @@ describe(`models/${modelName}`, () => {
       // TODO:
       // 1. create a User with 3 passports.
       // 2. use model.create with include.
-      // 3. use data as Passport data, use `fakeData.create` as user data.
+      // 3. use data as Passport data, use `fakeData.create2` as user data.
       const data = [{
         token: '1',
         workspaceName: 'ws1',
@@ -197,7 +205,7 @@ describe(`models/${modelName}`, () => {
       // TODO:
       // 1. create a User and use set() method to set 1 associated model data.
       // 2. use model.findOne() with include to get model data with associated data.
-      // 3. use data as Passport data, use `fakeData.create` as user data.
+      // 3. use data as Passport data, use `fakeData.create3` as user data.
       const data = {
         token: '1',
         workspaceName: 'ws1',
