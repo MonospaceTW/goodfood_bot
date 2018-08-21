@@ -1,6 +1,6 @@
 'use strict';
 
-const USER_MODEL_NAME = 'User';
+const SPEC_MODEL_NAME = 'User';
 const fakeData = {
   create: {
     nickName: faker.name.findName(),
@@ -53,7 +53,7 @@ const fakeData = {
   },
 };
 
-describe.only(`models/${USER_MODEL_NAME}`, () => {
+describe.only(`models/${SPEC_MODEL_NAME}`, () => {
   before(() => {
   });
 
@@ -65,7 +65,7 @@ describe.only(`models/${USER_MODEL_NAME}`, () => {
       // TODO:
       // 1. model.create(fakeData.create)...
       // 2. use data from `fakeData.create`
-      const createdModelData = await models[USER_MODEL_NAME].create(fakeData.create);
+      const createdModelData = await models[SPEC_MODEL_NAME].create(fakeData.create);
 
       Object.keys(fakeData.create).forEach(e => {
         expect(createdModelData[e]).to.equal(fakeData.create[e]);
@@ -77,7 +77,7 @@ describe.only(`models/${USER_MODEL_NAME}`, () => {
     let modelDataForUpdate = null;
     before(async () => {
       // create a model data before run test
-      modelDataForUpdate = await models[USER_MODEL_NAME].create(fakeData.update);
+      modelDataForUpdate = await models[SPEC_MODEL_NAME].create(fakeData.update);
     });
 
     it('update a model with find and save', async () => {
@@ -85,7 +85,7 @@ describe.only(`models/${USER_MODEL_NAME}`, () => {
       // 1. use model.find(modelId === updatedModel.id) then model.save();
       // 2. use data from `fakeData.updateNewData`
       // 3. use `findAndUpdatedModel` as target, `modelDataForUpdate.id` as condition.
-      let findAndUpdatedModelData = await models[USER_MODEL_NAME].findOne({
+      let findAndUpdatedModelData = await models[SPEC_MODEL_NAME].findOne({
         where: {
           id: modelDataForUpdate.id
         }
@@ -120,7 +120,7 @@ describe.only(`models/${USER_MODEL_NAME}`, () => {
     let modelDataForFind = null;
     before(async () => {
       // create a model before run test
-      modelDataForFind = await models[USER_MODEL_NAME].create(fakeData.findOne);
+      modelDataForFind = await models[SPEC_MODEL_NAME].create(fakeData.findOne);
     });
 
     it('find a model with findOne', async () => {
@@ -128,7 +128,7 @@ describe.only(`models/${USER_MODEL_NAME}`, () => {
       // 1. use model.findOne...
       // 2. use data from `fakeData.findOne`
       // 3. use `findModelData` as target, `modelDataForFind.id` as option.
-      const findModelData = await models[USER_MODEL_NAME].findOne({
+      const findModelData = await models[SPEC_MODEL_NAME].findOne({
         where: {
           id: modelDataForFind.id
         }
@@ -143,8 +143,8 @@ describe.only(`models/${USER_MODEL_NAME}`, () => {
   describe('Find all model data', () => {
     before(async () => {
       // create 3 models and push into models array.
-      // await models[USER_MODEL_NAME].create(data1);
-      await models[USER_MODEL_NAME].bulkCreate(fakeData.findAll);
+      // await models[SPEC_MODEL_NAME].create(data1);
+      await models[SPEC_MODEL_NAME].bulkCreate(fakeData.findAll);
     });
 
     it('find all model', async () => {
@@ -152,7 +152,7 @@ describe.only(`models/${USER_MODEL_NAME}`, () => {
       // 1. use model.findAll...
       // 2. use data from `fakeData.findAll`
       // 3. use `findAllModelData` as target.
-      const findAllModelData = await models[USER_MODEL_NAME].findAll();
+      const findAllModelData = await models[SPEC_MODEL_NAME].findAll();
 
       expect(findAllModelData.length).to.greaterThan(fakeData.findAll.length - 1);
     });
@@ -162,7 +162,7 @@ describe.only(`models/${USER_MODEL_NAME}`, () => {
       // 1. use model.findAll...
       // 2. use data from `fakeData.findAll`
       // 3. use `findAllModelData` as target, and use `fakeData.keyword` as option.
-      const findAllModelData = await models[USER_MODEL_NAME].findAll({
+      const findAllModelData = await models[SPEC_MODEL_NAME].findAll({
         where: {
           nickName: fakeData.keyword.nickName
         }
@@ -182,7 +182,7 @@ describe.only(`models/${USER_MODEL_NAME}`, () => {
     let modelDataForDestroy = null;
     before(async () => {
       // create data before run test
-      modelDataForDestroy = await models[USER_MODEL_NAME].create(fakeData.destroy);
+      modelDataForDestroy = await models[SPEC_MODEL_NAME].create(fakeData.destroy);
     });
 
     it('delete a model data with where', async () => {
@@ -190,13 +190,13 @@ describe.only(`models/${USER_MODEL_NAME}`, () => {
       // 1. use model.destroy...
       // 2. use data from `fakeData.findAll`
       // 3. use `deleteModelData` as target, and use `modelDataForDestroy.id` as option.
-      const deleteModelData = await models[USER_MODEL_NAME].destroy({
+      const deleteModelData = await models[SPEC_MODEL_NAME].destroy({
         where: {
           id: modelDataForDestroy.id
         }
       });
 
-      const findDeletedModel = await models[USER_MODEL_NAME].findOne({
+      const findDeletedModel = await models[SPEC_MODEL_NAME].findOne({
         where: {
           id: modelDataForDestroy.id
         }
@@ -227,7 +227,7 @@ describe.only(`models/${USER_MODEL_NAME}`, () => {
         passwordHash: 'ws3ws3ws3',
       }];
 
-      const user = await models[USER_MODEL_NAME].create({
+      const user = await models[SPEC_MODEL_NAME].create({
         ...fakeData.create2,
         Passports: data
       }, {
@@ -250,7 +250,7 @@ describe.only(`models/${USER_MODEL_NAME}`, () => {
         passwordHash: 'ws1ws1ws1',
       };
 
-      let user = await models[USER_MODEL_NAME].create({
+      let user = await models[SPEC_MODEL_NAME].create({
         ...fakeData.create3,
         Passports: data
       }, {
@@ -260,7 +260,7 @@ describe.only(`models/${USER_MODEL_NAME}`, () => {
       const passport = await models.Passport.create(data);
       await user.setPassports(passport);
 
-      const userWithPassport = await models[USER_MODEL_NAME].findOne(
+      const userWithPassport = await models[SPEC_MODEL_NAME].findOne(
         {
           where: {
             nickName: fakeData.create3.nickName
