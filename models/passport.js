@@ -19,10 +19,10 @@ module.exports = (sequelize, DataTypes) => {
 
   Passport.associate = function (models) {
     Passport.belongsTo(models.User);
-  },
+  };
 
   Passport.providerCode = function () {
-    return new Enum({ 'SLACK': 0, 'FIREBASE': 1, 'LOCAL': 2,});
+    return new Enum({ SLACK: 0, FIREBASE: 1, LOCAL: 2 });
   };
   return Passport;
 };
