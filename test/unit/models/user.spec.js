@@ -167,7 +167,7 @@ describe(`models/${modelName}`, () => {
     });
   });
 
-  describe.only('Associated model data', () => {
+  describe('Associated model data', () => {
     it('Create a model with associated data using include', async () => {
       // TODO:
       // 1. create a User with 3 passports.

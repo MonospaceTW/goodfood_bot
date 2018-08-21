@@ -54,7 +54,7 @@ const fakeData = {
   },
 };
 
-describe(`models/${modelName}`, () => {
+describe.only(`models/${modelName}`, () => {
   before(() => {
   });
 
