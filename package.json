@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@slack/client": "^4.3.1",
+    "bcrypt": "^3.0.0",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "config": "^1.31.0",
@@ -22,6 +23,7 @@
     "es6-promisify": "^6.0.0",
     "express": "^4.16.2",
     "express-ejs-layouts": "^2.3.1",
+    "faker": "^4.1.0",
     "firebase-admin": "^5.13.1",
     "istanbul": "^0.4.5",
     "jsonwebtoken": "^8.3.0",
@@ -41,7 +43,6 @@
   "devDependencies": {
     "cross-env": "^5.2.0",
     "eslint": "^5.3.0",
-    "eslint-config-airbnb-base": "^13.0.0",
     "eslint-config-standard": "^11.0.0",
     "eslint-plugin-import": "^2.13.0",
     "eslint-plugin-node": "^7.0.1",
@@ -49,6 +50,7 @@
     "eslint-plugin-standard": "^3.1.0",
     "expect.js": "^0.3.1",
     "mocha": "^5.2.0",
+    "sinon": "^6.1.5",
     "supertest": "^3.1.0"
   }
 }

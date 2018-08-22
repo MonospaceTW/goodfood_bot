@@ -8,7 +8,6 @@ const expressLayouts = require('express-ejs-layouts');
 
 const app = express();
 const routes = require('./routes/index');
-const api = require('./routes/api');
 const swagger = require('./routes/swagger');
 
 // view engine setup
@@ -18,18 +17,16 @@ app.set('view engine', 'ejs');
 // ejs layout
 app.use(expressLayouts);
 
-// uncomment after placing your favicon in /public
-// app.use(favicon(__dirname + '/public/favicon.ico'));
+// un-comment after placing your favicon in /public
+// app.use(favicon(path.resolve('/public/favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/',swagger);
+app.use('/', swagger);
 app.use('/', routes);
-app.use('/api', api);
-
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -39,7 +36,7 @@ app.use((req, res, next) => {
 });
 
 // error handler
-// no stacktraces leaked to user unless in development environment
+// no stack traces leaked to user unless in development environment
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.render('error', {
