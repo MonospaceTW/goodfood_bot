@@ -11,10 +11,12 @@
   },
   "dependencies": {
     "@slack/client": "^4.3.1",
+    "bcrypt": "^3.0.0",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "config": "^1.31.0",
     "cookie-parser": "^1.4.3",
+    "crypto": "^1.0.1",
     "debug": "^3.1.0",
     "ejs": "^2.5.7",
     "enum": "^2.5.0",

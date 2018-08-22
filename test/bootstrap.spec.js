@@ -4,7 +4,7 @@ global.faker = require('faker');
 global.faker = require('faker');
 global.request = require('supertest');
 global.express = require('../app');
-global.logResponseBody = (res) => console.info(res.body);
+global.logResponseBody = (res) => console.info('>=== ResponseBody ===<\n', res.body, '\n======================\n');
 
 // do something before start testing.
 before(async () => {
