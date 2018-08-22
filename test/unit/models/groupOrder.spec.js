@@ -36,7 +36,7 @@ const fakeData = {
   },
 };
 
-describe(`models/${modelName}`, () => {
+describe.skip(`models/${modelName}`, () => {
   before(() => {
   });
 
@@ -45,7 +45,7 @@ describe(`models/${modelName}`, () => {
 
   describe('Create model data', () => {
     it('creates a data', async () => {
-      // TODO: 
+      // TODO:
       // 1. model.create(fakeData.create)...
       // 2. use data from `fakeData.create`
       let createdModel = null;
