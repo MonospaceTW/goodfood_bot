@@ -169,12 +169,9 @@ describe(`models/${SPEC_MODEL_NAME}`, () => {
       });
 
       expect(findAllModelData.length).to.greaterThan(fakeData.findAll.length - 1);
-      fakeData.findAll.forEach(i => {
-        Object.keys(i).forEach(e => {
-          // console.log('fakeData.findAll[e]=>', fakeData.findAll[e]);
-          expect(findAllModelData[e]).to.equal(fakeData.findAll[e]);
-        });
-      });
+      for (let item in findAllModelData) {
+        expect(findAllModelData[item].nickName).to.equal(fakeData.findAll[0].nickName);
+      }
     });
   });
 
