@@ -185,14 +185,17 @@ describe(`models/${modelName}`, () => {
         token: '1',
         workspaceName: 'ws1',
         passwordHash: 'ws1ws1ws1',
+        provider: 'local',
       }, {
         token: '2',
         workspaceName: 'ws2',
         passwordHash: 'ws2ws2ws2',
+        provider: 'local',
       }, {
         token: '3',
         workspaceName: 'ws3',
         passwordHash: 'ws3ws3ws3',
+        provider: 'local',
       }];
       let user = null;
 
