@@ -169,8 +169,8 @@ describe(`models/${SPEC_MODEL_NAME}`, () => {
       });
 
       expect(findAllModelData.length).to.greaterThan(fakeData.findAll.length - 1);
-      for (let item in findAllModelData) {
-        expect(findAllModelData[item].nickName).to.equal(fakeData.findAll[0].nickName);
+      for (const index in findAllModelData) {
+        expect(findAllModelData[index].nickName).to.equal(fakeData.findAll[0].nickName);
       }
     });
   });
