@@ -9,7 +9,7 @@
   },
   "test": {
     "dialect": "sqlite",
-    "storage": "test.db",
+    "storage": ":memory:",
     "drop": true,
     "logging": false
   },
