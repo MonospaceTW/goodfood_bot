@@ -151,7 +151,7 @@ describe(`models/${SPEC_MODEL_NAME}`, () => {
       });
 
       expect(findAllModelData.length).to.greaterThan(fakeData.findAll.length - 1);
-      for (let index in findAllModelData) {
+      for (const index in findAllModelData) {
         expect(findAllModelData[index].total).to.equal(fakeData.findAll[0].total);
       }
     });
