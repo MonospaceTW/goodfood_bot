@@ -1,10 +1,16 @@
 const express = require('express');
+let { userAuthHandler, checkPermission } = require('../auth/user');
+
 const router = express.Router();
 const ExampleController = require('../controller/example');
 
 this.exampleController = new ExampleController();
 
-router.get('/', this.exampleController.index);
-router.get('/users', this.exampleController.users);
+router.post('/admin/login', userAuthHandler);
+
+
+
+
+
 
 module.exports = router;

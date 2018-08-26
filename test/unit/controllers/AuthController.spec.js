@@ -1,6 +1,6 @@
 const CONTROLLER_NAME = 'Auth';
 
-describe.skip(`Controllers/${CONTROLLER_NAME}`, () => {
+describe.only(`Controllers/${CONTROLLER_NAME}`, () => {
   let preCreatedUser;
   before(async () => {
     preCreatedUser = await models.User.create({

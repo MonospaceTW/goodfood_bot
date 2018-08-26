@@ -1,5 +1,5 @@
 // var debug = require('debug')('bc:utils:MsgResponse');
-
+const config = require('config');
 module.exports = class MsgResponse extends Error {
   constructor (message) {
     super();

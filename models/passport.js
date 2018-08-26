@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const crypto = require('crypto');
+const debug = require('debug');
 
 module.exports = (sequelize, DataTypes) => {
   const Passport = sequelize.define('Passport', {
@@ -29,11 +30,11 @@ module.exports = (sequelize, DataTypes) => {
     hashPassword: async (passport) => {
       // eslint-disable-next-line
       await new Promise((defer, reject) => {
-        if (passport.passwordHash) {
-          bcrypt.hash(passport.passwordHash, 10, (err, hash) => {
+        if (passport.password) {
+          bcrypt.hash(passport.password, 10, (err, hash) => {
             if (err) reject(err);
             // eslint-disable-next-line
-            passport.passwordHash = hash;
+            passport.password = hash;
             defer();
           });
         }
@@ -99,9 +100,11 @@ module.exports = (sequelize, DataTypes) => {
     async beforeCreate (passport) {
       return new Promise(async (resolve, reject) => {
         try {
+          debug('beforeCreate');
           await Passport.hashPassword(passport);
           return resolve(passport);
         } catch (e) {
+          debug('beforeCreate');
           return reject(e);
         }
       });

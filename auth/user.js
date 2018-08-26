@@ -10,8 +10,8 @@ const STRATEGY_NAME = BASE_TYPE;
 
 async function verify (email, password, done) {
   debug('# verify');
-  let driver = await userService.findByUsername(username);
-  let isAble = await userService.auth(username, password);
+  let user = await userService.findByUsername(email);
+  let isAble = await userService.auth(email, password);
   let options;
   let error = null;
 
@@ -29,7 +29,7 @@ async function verify (email, password, done) {
 
 passport.use(STRATEGY_NAME, new LocalStrategy(verify));
 
-export const driverAuthHandler = (ctx, next) => {
+module.exports.userAuthHandler = (ctx, next) => {
   debug('### driverAuthHandler');
   return passport.authenticate(STRATEGY_NAME, async (err, user, options) => {
     debug('err: %j, user: %j, options: %j', err, user, options);
@@ -49,7 +49,7 @@ export const driverAuthHandler = (ctx, next) => {
 //   ctx.body = newToken;
 // };
 
-export const checkPermission = async (ctx, next) => {
+module.exports.checkPermission = async (ctx, next) => {
   let type = ctx.state.user.type;
   if (type === BASE_TYPE) {
     await next();
@@ -58,4 +58,4 @@ export const checkPermission = async (ctx, next) => {
   }
 };
 
-export default passport;
+module.exports.passport;
