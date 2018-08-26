@@ -1,7 +1,5 @@
 'use strict';
 
-var expect = require('expect.js');
-
 describe('models/index', function () {
   it.skip('returns the task model', function () {
     var models = require('../../../models');
