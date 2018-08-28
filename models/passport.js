@@ -95,27 +95,26 @@ module.exports = (sequelize, DataTypes) => {
     },
   };
 
-  Passport.options.hooks = {
-    async beforeCreate (passport) {
-      return new Promise(async (resolve, reject) => {
-        try {
-          await Passport.hashPassword(passport);
-          return resolve(passport);
-        } catch (e) {
-          return reject(e);
-        }
-      });
-    },
-    async beforeUpdate (passport) {
-      return new Promise(async (resolve, reject) => {
-        try {
-          await Passport.hashPassword(passport);
-          return resolve(passport);
-        } catch (e) {
-          return reject(e);
-        }
-      });
-    },
-  };
+  Passport.hook('beforeCreate', async (passport, options) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await Passport.hashPassword(passport);
+        return resolve(passport);
+      } catch (e) {
+        return reject(e);
+      }
+    });
+  });
+
+  Passport.hook('beforeUpdate', async (passport, options) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        await Passport.hashPassword(passport);
+        return resolve(passport);
+      } catch (e) {
+        return reject(e);
+      }
+    });
+  });
   return Passport;
 };
