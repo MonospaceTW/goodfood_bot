@@ -42,7 +42,9 @@
     "CLIENT_SECRET" : "CLIENT_SECRET",
     "VERIFICATION_TOKEN" : "VERIFICATION_TOKEN"
   },
-  "jwt": "Monospace",
+  "jwt": {
+    "secret": "Monospace"
+  },
   "auth": {
     "refreshTokenTtl": 216000, // 60 days
     "accessTokenTtl": 3600,

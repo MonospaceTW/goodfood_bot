@@ -1,18 +1,16 @@
 const express = require('express');
+let { userAuthHandler, checkPermission } = require('../auth/user');
+
 const router = express.Router();
 const ExampleController = require('../controller/example');
-const OauthController = require('../controller/oauth');
 
-router.get('/oauth', OauthController.auth);
-// const OauthController = require('../controller/oauth');
+this.exampleController = new ExampleController();
 
-// router.get('/oauth', OauthController.auth);
+router.post('/admin/login', userAuthHandler);
 
-router.get('/spec', (req, res) => {
-  console.log('\n\n\n\n!!!!!!!!!!!!!\n\n\n\n');
-  return res.send({
-    data: 'test',
-  });
-});
+
+
+
+
 
 module.exports = router;

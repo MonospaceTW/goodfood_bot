@@ -1,5 +1,6 @@
 const debug = require('debug');
 const jwt = require('jsonwebtoken');
+const config = require('config');
 const namespace = 'services:jwt';
 class JWT {
   constructor () {

@@ -1,8 +1,8 @@
 const jwt = require('jsonwebtoken');
-const { exports } = module;
 const debug = require('debug')('bc:auth:oauth');
-const promisify = require('es6-promisify');
+const { promisify } = require('es6-promisify');
 const crypto = require('crypto');
+const config = require('config');
 
 const signAsync = promisify(jwt.sign, jwt);
 const randomBytesAsync = promisify(crypto.randomBytes, crypto);
@@ -16,7 +16,7 @@ const generateJwtId = async () => {
   }
 };
 
-exports.getCustomerToken = async (sid, type, showrefreshToken = true, admin = false) => {
+module.exports.getCustomerToken = async (sid, type, showrefreshToken = true, admin = false) => {
   let payload = {
     sid,
     type,

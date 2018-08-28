@@ -1,13 +1,11 @@
-<<<<<<< HEAD
-=======
-require('../models').sequelize.sync();
 
-const FireBaseService = require('./firebase');
-
->>>>>>> f8a6814e13acdb81620e09ca64051a706a451f87
+const JwtService = require('./jwt');
+const UserService = require('./user');
 module.exports = class Services {
   constructor () {
     // export models to global
     global.models = require('../models');
+    global.jwtService = new JwtService();
+    global.userService = new UserService();
   }
 };
