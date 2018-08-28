@@ -26,20 +26,6 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Passport.options.classMethod = {
-    hashPassword: async (passport) => {
-      // eslint-disable-next-line
-      await new Promise((defer, reject) => {
-        if (passport.passwordHash) {
-          bcrypt.hash(passport.passwordHash, 10, (err, hash) => {
-            if (err) reject(err);
-            // eslint-disable-next-line
-            passport.passwordHash = hash;
-            defer();
-          });
-        }
-        defer();
-      });
-    },
     async createDefaultLocalProviderIfNotExist (user) {
       try {
         const localPassport = await Passport.findOne({
@@ -62,29 +48,50 @@ module.exports = (sequelize, DataTypes) => {
         throw e;
       }
     },
+    async hashPassword (passport) {
+      try {
+        if (passport.password) {
+          const hash = await bcrypt.hashSync(passport.password, 10);
+          // eslint-disable-next-line
+          passport.password = hash;
+        }
+        return passport;
+      } catch (e) {
+        throw e;
+      }
+    },
   };
 
   Passport.options.instanceMethod = {
-    async validatePassword (password) {
+    async validatePassword (inputPassword) {
       try {
         const that = this;
         // eslint-disable-next-line
         let result = await new Promise((defer, reject) => {
-          if (password === that.password) {
+          if (inputPassword === that.password) {
             defer(true);
           }
           // eslint-disable-next-line
-          bcrypt.compare(password, that.password, (err, result) => {
+          bcrypt.compare(inputPassword, that.password, (err, result) => {
             if (err) defer(false);
             else defer(result);
           });
         });
+        console.log('=== result ===', result);
         if (result) return result;
+
         console.log('=== this.salt ===', that.salt);
-        console.log('=== this.salt ===', result);
         if (!this.salt) return result;
+
         console.log('=== check two ===');
-        const comparePassword = crypto.pbkdf2Sync(password, Buffer.from(this.salt, 'base64'), 10000, 64).toString('base64');
+        const comparePassword = crypto
+          .pbkdf2Sync(
+            inputPassword,
+            Buffer.from(this.salt, 'base64'),
+            10000,
+            64,
+          )
+          .toString('base64');
         if (comparePassword === that.password) {
           result = true;
         }
@@ -96,25 +103,15 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Passport.hook('beforeCreate', async (passport, options) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        await Passport.hashPassword(passport);
-        return resolve(passport);
-      } catch (e) {
-        return reject(e);
-      }
-    });
+    const hashedPassport = await Passport.hashPassword(passport);
+    // console.log('hashedPassport=>', hashedPassport);
+    return hashedPassport;
   });
 
   Passport.hook('beforeUpdate', async (passport, options) => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        await Passport.hashPassword(passport);
-        return resolve(passport);
-      } catch (e) {
-        return reject(e);
-      }
-    });
+    const hashedPassport = await Passport.hashPassword(passport);
+    // console.log('hashedPassport=>', hashedPassport);
+    return hashedPassport;
   });
   return Passport;
 };

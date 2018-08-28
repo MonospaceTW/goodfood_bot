@@ -5,7 +5,7 @@
   "scripts": {
     "start": "nodemon ./bin/www localhost 3000",
     "test-integration": "cross-env NODE_ENV=test ./node_modules/.bin/mocha test/integration/*.test.js",
-    "test": "cross-env NODE_ENV=test  ./node_modules/.bin/istanbul cover _mocha --- --opts ./test/mocha.opts",
+    "test": "cross-env NODE_ENV=test ./node_modules/.bin/istanbul cover _mocha --- --opts ./test/mocha.opts",
     "test-unit": "cross-env NODE_ENV=test ./node_modules/.bin/mocha test/unit/*/*.test.js",
     "production": "cross-env NODE_ENV=production node ./bin/www"
   },
@@ -24,7 +24,7 @@
     "express-ejs-layouts": "^2.3.1",
     "faker": "^4.1.0",
     "firebase-admin": "^5.13.1",
-    "istanbul": "^0.4.5",
+    "istanbul": "^1.1.0-alpha.1",
     "lodash": "^4.17.10",
     "morgan": "^1.7.0",
     "mysql": "^2.15.0",
