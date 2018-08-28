@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
-  Food.associate = function(models) {
+  Food.associate = function (models) {
     Food.belongsTo(models.Restaurant);
     Food.hasMany(models.UserOrder);
   };
