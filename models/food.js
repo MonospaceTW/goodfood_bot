@@ -9,10 +9,10 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
   }, {
-    name: {
-      singular: 'Food',
-      plural: 'Foods',
-    },
+    // name: {
+    //   singular: 'Food',
+    //   plural: 'Foods',
+    // },
   });
 
   Food.associate = function (models) {
