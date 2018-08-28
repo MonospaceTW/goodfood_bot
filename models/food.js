@@ -8,6 +8,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+  }, {
+    name: {
+      singular: 'Food',
+      plural: 'Foods',
+    },
   });
 
   Food.associate = function (models) {

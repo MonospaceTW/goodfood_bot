@@ -190,7 +190,7 @@ describe(`models/${modelName}`, () => {
       }];
       let restaurant = await models.Restaurant.create({
         ...fakeData.create,
-        Food: data,
+        Foods: data,
       }, {
         include: [{
           model: models.Food,
@@ -200,7 +200,7 @@ describe(`models/${modelName}`, () => {
 
       expect(restaurant.name).to.be.equal(fakeData.create.name);
       expect(restaurant.address).to.be.equal(fakeData.create.address);
-      expect(restaurant.Food.length).to.equal(data.length);
+      expect(restaurant.Foods.length).to.equal(data.length);
     });
 
     it('Create a model with associated data using set()', async () => {
