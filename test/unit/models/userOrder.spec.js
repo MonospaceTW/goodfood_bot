@@ -1,43 +1,68 @@
 'use strict';
 
-const modelName = 'UserOrder';
+const SPEC_MODEL_NAME = 'UserOrder';
 const fakeData = {
   create: {
+    price: faker.random.number(),
     amount: faker.random.number(),
+    subTotal: faker.random.number(),
+    remark: faker.lorem.words(),
+
+  },
+  create2: {
+    price: faker.random.number(),
+    amount: faker.random.number(),
+    subTotal: faker.random.number(),
     remark: faker.lorem.words(),
   },
   update: {
+    price: faker.random.number(),
     amount: faker.random.number(),
+    subTotal: faker.random.number(),
     remark: faker.lorem.words(),
   },
   updateNewData: {
+    price: faker.random.number(),
     amount: faker.random.number(),
+    subTotal: faker.random.number(),
     remark: faker.lorem.words(),
   },
   updateNewData2: {
+    price: faker.random.number(),
     amount: faker.random.number(),
+    subTotal: faker.random.number(),
     remark: faker.lorem.words(),
   },
   findOne: {
+    price: faker.random.number(),
     amount: faker.random.number(),
+    subTotal: faker.random.number(),
     remark: faker.lorem.words(),
   },
   findAll: [
     {
       amount: 10,
+      price: faker.random.number(),
+      subTotal: faker.random.number(),
       remark: faker.lorem.words(),
     },
     {
       amount: 10,
+      price: faker.random.number(),
+      subTotal: faker.random.number(),
       remark: faker.lorem.words(),
     },
     {
       amount: 10,
+      price: faker.random.number(),
+      subTotal: faker.random.number(),
       remark: faker.lorem.words(),
     },
   ],
   destroy: {
+    price: faker.random.number(),
     amount: faker.random.number(),
+    subTotal: faker.random.number(),
     remark: faker.lorem.words(),
   },
   keyword: {
@@ -45,7 +70,7 @@ const fakeData = {
   },
 };
 
-describe(`models/${modelName}`, () => {
+describe(`models/${SPEC_MODEL_NAME}`, () => {
   before(() => {
   });
 
@@ -54,13 +79,13 @@ describe(`models/${modelName}`, () => {
 
   describe('Create model data', () => {
     it('creates a data', async () => {
-      // TODO: 
+      // TODO:
       // 1. model.create(fakeData.create)...
       // 2. use data from `fakeData.create`
-      let createdModel = null;
+      const createdModelData = await models[SPEC_MODEL_NAME].create(fakeData.create);
 
       Object.keys(fakeData.create).forEach(e => {
-        expect(createdModel[e]).to.equal(fakeData.create[e]);
+        expect(createdModelData[e]).to.equal(fakeData.create[e]);
       });
     });
   });
@@ -69,30 +94,48 @@ describe(`models/${modelName}`, () => {
     let modelDataForUpdate = null;
     before(async () => {
       // create a model data before run test
-      modelDataForUpdate = await models[modelName].create(fakeData.update);
+      modelDataForUpdate = await models[SPEC_MODEL_NAME].create(fakeData.update);
     });
 
     it('update a model with find and save', async () => {
       // TODO:
       // 1. use model.find(modelId === updatedModel.id) then model.save();
       // 2. use data from `fakeData.updateNewData`
-      // 3. use `findAndUpdatedModel` as target, `modelDataForUpdate.id` as condition.
-      let findAndUpdatedModel = null;
-
-      Object.keys(fakeData.updateNewData).forEach(e => {
-        expect(findAndUpdatedModel[e]).to.equal(fakeData.updateNewData[e]);
-      });
+      // 3. use `findAndUpdatedModelData` as target, `modelDataForUpdate.id` as condition.
+      try {
+        let findAndUpdatedModelData = await models[SPEC_MODEL_NAME].find({
+          where: {
+            id: modelDataForUpdate.id,
+          }
+        });
+        if (findAndUpdatedModelData) {
+          findAndUpdatedModelData.price = fakeData.updateNewData.price;
+          findAndUpdatedModelData.amount = fakeData.updateNewData.amount;
+          findAndUpdatedModelData.subTotal = fakeData.updateNewData.subTotal;
+          findAndUpdatedModelData.remark = fakeData.updateNewData.remark;
+          await findAndUpdatedModelData.save();
+          Object.keys(fakeData.updateNewData).forEach(e => {
+            expect(findAndUpdatedModelData[e]).to.equal(fakeData.updateNewData[e]);
+          });
+        }
+      } catch (error) {
+        console.error('Error message:', error);
+      }
     });
 
     it('update a model with update method', async () => {
       // TODO:
       // 1. use model.update()...
       // 2. use data from `fakeData.updateNewData2`
-      // 3. use `updateModel` as target, `modelDataForUpdate.id` as condition.
-      let updateModel = null;
+      // 3. use `updateModelData` as target, `modelDataForUpdate.id` as condition.
+      const updateModelData = await modelDataForUpdate.update(fakeData.updateNewData2, {
+        where: {
+          id: modelDataForUpdate.id,
+        }
+      });
 
       Object.keys(fakeData.updateNewData2).forEach(e => {
-        expect(updateModel[e]).to.equal(fakeData.updateNewData2[e]);
+        expect(updateModelData[e]).to.equal(fakeData.updateNewData2[e]);
       });
     });
   });
@@ -101,18 +144,22 @@ describe(`models/${modelName}`, () => {
     let modelDateForFind = null;
     before(async () => {
       // create a model before run test
-      modelDateForFind = await models[modelName].create(fakeData.findOne);
+      modelDateForFind = await models[SPEC_MODEL_NAME].create(fakeData.findOne);
     });
 
     it('find a model with findOne', async () => {
       // TODO:
       // 1. use model.findOne...
       // 2. use data from `fakeData.findOne`
-      // 3. use `findModel` as target, `modelDateForFind.id` as option.
-      let findModel = null;
+      // 3. use `findModelData` as target, `modelDateForFind.id` as option.
+      const findModelData = await models[SPEC_MODEL_NAME].findOne({
+        where: {
+          id: modelDateForFind.id,
+        }
+      });
 
       Object.keys(fakeData.findOne).forEach(e => {
-        expect(findModel[e]).to.equal(fakeData.findOne[e]);
+        expect(findModelData[e]).to.equal(fakeData.findOne[e]);
       });
     });
   });
@@ -120,31 +167,33 @@ describe(`models/${modelName}`, () => {
   describe('Find all model data', () => {
     before(async () => {
       // create 3 models and push into models array.
-      // await models[modelName].create(data1);
-      await models[modelName].bulkCreate(fakeData.findAll);
+      // await models[SPEC_MODEL_NAME].create(data1);
+      await models[SPEC_MODEL_NAME].bulkCreate(fakeData.findAll);
     });
 
     it('find all model', async () => {
       // TODO:
       // 1. use model.findAll...
       // 2. use data from `fakeData.findAll`
-      // 3. use `findAllModel` as target.
-      let findAllModel = null;
+      // 3. use `findAllModelData` as target.
+      const findAllModelData = await models[SPEC_MODEL_NAME].findAll();
 
-      expect(findAllModel.length).to.greaterThan(fakeData.findAll.length - 1);
+      expect(findAllModelData.length).to.greaterThan(fakeData.findAll.length - 1);
     });
 
     it('find all with where', async () => {
       // TODO:
       // 1. use model.findAll...
       // 2. use data from `fakeData.findAll`
-      // 3. use `findAllModel` as target, and use `fakeData.keyword` as option.
-      let findAllModel = null;
-
-      expect(findAllModel.length).to.greaterThan(fakeData.findAll.length - 1);
-      Object.keys(fakeData.findAll).forEach(e => {
-        expect(findAllModel[e]).to.equal(fakeData.findAll[e]);
+      // 3. use `findAllModelData` as target, and use `fakeData.keyword` as option.
+      const findAllModelData = await models[SPEC_MODEL_NAME].findAll({
+        where: fakeData.keyword
       });
+
+      expect(findAllModelData.length).to.greaterThan(fakeData.findAll.length - 1);
+      for (const index in findAllModelData) {
+        expect(findAllModelData[index].amount).to.equal(fakeData.findAll[0].amount);
+      }
     });
   });
 
@@ -152,18 +201,27 @@ describe(`models/${modelName}`, () => {
     let modelDataForDestroy = null;
     before(async () => {
       // create data before run test
-      modelDataForDestroy = await models[modelName].create(fakeData.destroy);
+      modelDataForDestroy = await models[SPEC_MODEL_NAME].create(fakeData.destroy);
     });
 
     it('delete a model data with where', async () => {
       // TODO:
       // 1. use model.destroy...
       // 2. use data from `fakeData.findAll`
-      // 3. use `findAllModel` as target, and use `modelDataForDestroy.id` as option.
-      let deleteModel = null;
-      let findDeleteModel = null;
-      expect(deleteModel).to.equal(1);
-      expect(findDeleteModel).to.equal(null);
+      // 3. use `findAllModelData` as target, and use `modelDataForDestroy.id` as option.
+      const deleteModelData = await models[SPEC_MODEL_NAME].destroy({
+        where: {
+          id: modelDataForDestroy.id,
+        }
+      });
+
+      const findDeleteModelData = await models[SPEC_MODEL_NAME].find({
+        where: {
+          id: modelDataForDestroy.id,
+        }
+      });
+      expect(deleteModelData).to.equal(1);
+      expect(findDeleteModelData).to.equal(null);
     });
   });
 
@@ -177,7 +235,14 @@ describe(`models/${modelName}`, () => {
         nickName: 'Associated',
         email: 'a@b.c',
       };
-      let user = null;
+      const user = await models.User.create({
+        ...userData,
+        UserOrders: fakeData.findAll
+      }, {
+        include: [{
+          model: models.UserOrder,
+        }],
+      });
 
       expect(user.nickName).to.be.equal(userData.nickName);
       expect(user.email).to.be.equal(userData.email);
@@ -188,20 +253,33 @@ describe(`models/${modelName}`, () => {
       // TODO:
       // 1. create a User and use set() method to set 1 associated model data.
       // 2. use model.findOne() with include to get model data with associated data.
-      // 3. use data as User data, use `fakeData.create` as associated model data.
+      // 3. use data as User data, use `fakeData.create2` as associated model data.
       const data = {
         nickName: 'Associated',
-        email: 'a@b.c',
+        email: 'aa@b.c',
       };
-      let createdUser = null;
-      let userOrder = null;
-      let findUserWithAssociatedData = null;
+      const createdUser = await models.User.create({
+        ...data,
+        UserOrders: fakeData.create2,
+      }, {
+        include: [{
+          model: models.UserOrder,
+        }]
+      });
+
+      const userOrder = await models[SPEC_MODEL_NAME].create(fakeData.create2);
+      // console.log('userOrder=>', userOrder);
+      await createdUser.setUserOrders(userOrder);
+      const findUserWithAssociatedData = await models.User.findOne({
+        where: data,
+        include: [models.UserOrder],
+      });
 
       expect(findUserWithAssociatedData.nickName).to.be.equal(data.nickName);
       expect(findUserWithAssociatedData.email).to.be.equal(data.email);
       expect(findUserWithAssociatedData.UserOrders.length).to.equal(1);
-      expect(findUserWithAssociatedData.UserOrders[0].amount).to.equal(fakeData.create.amount);
-      expect(findUserWithAssociatedData.UserOrders[0].remark).to.equal(fakeData.create.remark);
+      expect(findUserWithAssociatedData.UserOrders[0].amount).to.equal(fakeData.create2.amount);
+      expect(findUserWithAssociatedData.UserOrders[0].remark).to.equal(fakeData.create2.remark);
     });
   });
 });
