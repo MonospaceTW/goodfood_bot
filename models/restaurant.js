@@ -7,20 +7,20 @@ module.exports = (sequelize, DataTypes) => {
     imageUrl: DataTypes.STRING,
     address: DataTypes.STRING,
     orderInUnit: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: 0,
+      defaultValue: '個/元',
     },
     orderRequirement: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
     startTime: {
-      type: DataTypes.STRING,
+      type: DataTypes.DATE,
       allowNull: false,
     },
     endTime: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.DATE,
       allowNull: false,
     },
     phone: {

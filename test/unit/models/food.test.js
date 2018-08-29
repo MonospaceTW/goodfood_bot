@@ -1,6 +1,6 @@
 'use strict';
 
-describe('models/food', () => {
+describe.skip('models/food', () => {
 
   before(function () {
   });
