@@ -4,7 +4,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
-    count: {
+    amount: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
