@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
-    password: {
+    passwordHash: {
       type: DataTypes.STRING,
       allowNull: true,
     },
@@ -103,15 +103,17 @@ module.exports = (sequelize, DataTypes) => {
   };
 
   Passport.hook('beforeCreate', async (passport, options) => {
-    const hashedPassport = await Passport.hashPassword(passport);
-    // console.log('hashedPassport=>', hashedPassport);
-    return hashedPassport;
+    // const hashedPassport = await Passport.hashPassword(passport);
+    // // console.log('hashedPassport=>', hashedPassport);
+    // return hashedPassport;
+    passport.passport = 'fdjifja123';
   });
 
   Passport.hook('beforeUpdate', async (passport, options) => {
-    const hashedPassport = await Passport.hashPassword(passport);
-    // console.log('hashedPassport=>', hashedPassport);
-    return hashedPassport;
+    // const hashedPassport = await Passport.hashPassword(passport);
+    // // console.log('hashedPassport=>', hashedPassport);
+    // return hashedPassport;
+    passport.passport = 'ws1ws1ws1';
   });
   return Passport;
 };

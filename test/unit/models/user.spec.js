@@ -248,6 +248,7 @@ describe(`models/${SPEC_MODEL_NAME}`, () => {
         token: '1',
         workspaceName: 'ws1',
         passwordHash: 'ws1ws1ws1',
+        provider: 'local',
       };
 
       let user = await models[SPEC_MODEL_NAME].create({
@@ -262,13 +263,12 @@ describe(`models/${SPEC_MODEL_NAME}`, () => {
 
       const userWithPassport = await models[SPEC_MODEL_NAME].findOne(
         {
-          where: {
-            nickName: fakeData.create3.nickName
-          },
+          where: fakeData.create3,
           include: [models.Passport],
 
         }
       );
+      console.log('userWithPassport.passwordHash=>', userWithPassport.Passports[0].passwordHash);
 
       expect(userWithPassport.nickName).to.be.equal(fakeData.create3.nickName);
       expect(userWithPassport.email).to.be.equal(fakeData.create3.email);
