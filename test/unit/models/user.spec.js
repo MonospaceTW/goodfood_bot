@@ -214,14 +214,17 @@ describe(`models/${SPEC_MODEL_NAME}`, () => {
         token: '1',
         workspaceName: 'ws1',
         passwordHash: 'ws1ws1ws1',
+        provider: 'local',
       }, {
         token: '2',
         workspaceName: 'ws2',
         passwordHash: 'ws2ws2ws2',
+        provider: 'local',
       }, {
         token: '3',
         workspaceName: 'ws3',
         passwordHash: 'ws3ws3ws3',
+        provider: 'local',
       }];
 
       const user = await models[SPEC_MODEL_NAME].create({

@@ -1,7 +1,16 @@
-const controllerName = 'User';
+const CONTROLLER_NAME = 'Auth';
 
-describe.skip(`Controllers/${controllerName}`, () => {
-  before(() => {
+describe.skip(`Controllers/${CONTROLLER_NAME}`, () => {
+  let preCreatedUser;
+  before(async () => {
+    preCreatedUser = await models.User.create({
+      nickName: 'tomas',
+      email: 'me@tomas.io',
+      Passports: {
+        provider: 'local',
+        password: 'tomastomas',
+      },
+    });
   });
 
   beforeEach(() => {
@@ -10,67 +19,29 @@ describe.skip(`Controllers/${controllerName}`, () => {
   after(() => {
   });
 
-  describe('Create model data', () => {
-    it('creates a data', async () => {
-      await request(express)
-        .get('/spec')
-        .set('Accept', 'application/json')
-        .expect(r => logResponseBody(r))
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .expect((res) => {
-          // TODO:
-          // 1. model.create(fakeData.create)...
-          // 2. use data from `fakeData.create`
-
-          expect(res.body.data).to.be.equal('test');
-        });
-    });
-  });
-
-  describe('About AuthController operations', () => {
-    it('Login User - Admin', async () => {
+  describe(`About ${CONTROLLER_NAME}Controller operations`, () => {
+    it('Login as an Admin User', async () => {
       await request(express)
         .post('/api/admin/login')
         .set('Accept', 'application/json')
         .send({
-          'email': 'a@b.c', // email
-          'password': '12345678' // 密碼
+          'email': preCreatedUser.email, // email
+          'password': 'tomastomas' // 密碼
         })
         .expect(r => logResponseBody(r))
         .expect('Content-Type', /json/)
         .expect(200)
         .expect((res) => {
-          // TODO:
-          // 1. model.create(fakeData.create)...
-          // 2. use data from `fakeData.create`
-
-          expect(res.body.data).to.be.equal('test');
-        });
-    });
-  });
-
-  describe('About UserController operations', () => {
-    it('Get User List', async () => {
-      const param = {
-        curPage: 1,
-        perPage: 10,
-      };
-      await request(express)
-        .get('/api/admin/users')
-        .set('Accept', 'application/json')
-        .query(param)
-        .expect(r => logResponseBody(r))
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .expect((res) => {
-          // TODO:
-          // 1. model.create(fakeData.create)...
-          // 2. use data from `fakeData.create`
-
-          expect(res.body.data).to.be.equal('test');
-          expect(res.body.paging.perPage).to.be.equal(param.perPage);
-          expect(res.body.paging.curPage).to.be.equal(param.curPage);
+          // TODO: expecting result:
+          // {
+          //   "token": "user_token",
+          //   "nickName": "tomas",
+          //   "Authorization": "eyJhbGciOiJIUzI1NiJ9.eyJpZCI6MTA4LCJkZXZpY2VUb" // JWT Token
+          // }
+          expect(res.body).to.be.an(Object);
+          expect(res.body.token).to.be.a(String);
+          expect(res.body.nickName).to.be.a(String).equal(preCreatedUser.nickName);
+          expect(res.body.Authorization).to.be.a(String);
         });
     });
   });
