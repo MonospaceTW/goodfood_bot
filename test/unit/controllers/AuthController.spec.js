@@ -6,10 +6,11 @@ describe.only(`Controllers/${CONTROLLER_NAME}`, () => {
     preCreatedUser = await models.User.create({
       nickName: 'tomas',
       email: 'me@tomas.io',
-      Passports: {
-        provider: 'local',
-        password: 'tomastomas',
-      },
+    });
+    await models.Passport.create({
+      provider: 'local',
+      password: 'tomastomas',
+      UserId: preCreatedUser.id
     });
   });
 

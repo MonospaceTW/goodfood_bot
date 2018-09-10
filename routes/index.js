@@ -8,9 +8,4 @@ this.exampleController = new ExampleController();
 
 router.post('/admin/login', userAuthHandler);
 
-
-
-
-
-
 module.exports = router;
