@@ -8,13 +8,14 @@ const { getCustomerToken, checkRefreshToken } = require('./oauth');
 const BASE_TYPE = 'user';
 const STRATEGY_NAME = BASE_TYPE;
 
-async function verify (email, password, done) {
-  debug('# verify');
-  let user = await userService.findByUsername(email);
+passport.use(STRATEGY_NAME, new LocalStrategy({
+  usernameField: 'email',
+  passwordField: 'password'
+},
+async function (email, password, done) {
+  let user = await userService.findUserByEmail(email);
   let isAble = await userService.auth(email, password);
-  let options;
   let error = null;
-
   if (user) {
     if (!isAble) {
       error = new MsgResponse(config.err.BAD_PASSWORD);
@@ -22,22 +23,18 @@ async function verify (email, password, done) {
   } else {
     error = new MsgResponse(config.err.USER_NOT_FOUND);
   }
-
-  // pass to driverAuthHandler
-  done(error, user, options);
+  done(error, user);
 }
+));
 
-passport.use(STRATEGY_NAME, new LocalStrategy(verify));
-
-module.exports.userAuthHandler = (ctx, next) => {
-  debug('### driverAuthHandler');
-  return passport.authenticate(STRATEGY_NAME, async (err, user, options) => {
-    debug('err: %j, user: %j, options: %j', err, user, options);
-    if (err) throw err;
-
+module.exports.userAuthHandler = (req, res, next) => {
+  debug('### userAuthHandler');
+  console.log(req.body);
+  passport.authenticate(STRATEGY_NAME, async (error, user) => {
     let token = await getCustomerToken(user.id, BASE_TYPE);
-    ctx.body = token;
-  })(ctx, next);
+    console.log('token => ', token);
+    res.json(token);
+  })(req, res, next);
 };
 
 // export const driverRefreshToken = async (ctx) => {

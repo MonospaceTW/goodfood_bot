@@ -8,9 +8,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
     },
+  }, {
+    // name: {
+    //   singular: 'Food',
+    //   plural: 'Foods',
+    // },
   });
 
-  Food.associate = function(models) {
+  Food.associate = function (models) {
     Food.belongsTo(models.Restaurant);
     Food.hasMany(models.UserOrder);
   };

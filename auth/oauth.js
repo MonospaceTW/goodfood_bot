@@ -24,7 +24,6 @@ module.exports.getCustomerToken = async (sid, type, showrefreshToken = true, adm
   };
   let secret = config.jwt.secret;
   let { token } = await generateTokens(payload, secret);
-  token = token.dataValues;
   return Promise.resolve(token);
 };
 
@@ -72,7 +71,6 @@ const generateTokens = async (payload, secret, opts = {}) => {
   debug('payload: %j ,secret: %s, opts: %j', payload, secret, opts);
   try {
     const {accessTokenId, accessToken} = await getAccessTokenObject(payload, secret, opts);
-    const refreshToken = await getRefreshToken(payload, secret, accessTokenId, opts);
     debug('payload: %j', payload);
     let { sid, type } = payload;
     const tTypes = { user: 0 };
@@ -80,13 +78,11 @@ const generateTokens = async (payload, secret, opts = {}) => {
     const token = {
       sid,
       accessToken,
-      refreshToken,
       tType
     };
 
     return Promise.resolve({
       accessToken,
-      refreshToken,
       token
     });
   } catch (e) {

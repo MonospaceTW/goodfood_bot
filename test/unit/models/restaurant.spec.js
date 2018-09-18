@@ -5,6 +5,11 @@ const fakeData = {
   create: {
     name: faker.name.findName(),
     address: faker.address.streetAddress(),
+    orderInUnit: 1,
+    orderRequirement: 1,
+    phone: '1213',
+    startTime: 12,
+    endTime: 11,
   },
   update: {
     name: faker.name.findName(),
@@ -183,11 +188,19 @@ describe(`models/${modelName}`, () => {
         name: 'big_macx3',
         price: 400,
       }];
-      let restaurant = null;
+      let restaurant = await models.Restaurant.create({
+        ...fakeData.create,
+        Food: data,
+      }, {
+        include: [{
+          model: models.Food,
+        }],
+      });
+      console.log('restaurant=>', restaurant.toJSON());
 
       expect(restaurant.name).to.be.equal(fakeData.create.name);
       expect(restaurant.address).to.be.equal(fakeData.create.address);
-      expect(restaurant.UserOrders.length).to.equal(data.length);
+      expect(restaurant.Food.length).to.equal(data.length);
     });
 
     it('Create a model with associated data using set()', async () => {

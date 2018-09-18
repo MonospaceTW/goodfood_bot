@@ -5,10 +5,19 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const expressLayouts = require('express-ejs-layouts');
-
+const passport = require('passport');
 const app = express();
 const routes = require('./routes/index');
 const swagger = require('./routes/swagger');
+const Services = require('./services');
+const config = require('config');
+
+/**
+ * Get port from environment and store in Express.
+ */
+global.models = require('./models');
+global.services = new Services();
+global.config = config;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -16,7 +25,7 @@ app.set('view engine', 'ejs');
 
 // ejs layout
 app.use(expressLayouts);
-
+app.use(passport.initialize());
 // un-comment after placing your favicon in /public
 // app.use(favicon(path.resolve('/public/favicon.ico')));
 app.use(logger('dev'));

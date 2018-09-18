@@ -1,8 +1,9 @@
+// const Services = require('../services');
 global.models = require('../models');
 global.expect = require('expect.js');
 global.faker = require('faker');
-global.faker = require('faker');
 global.request = require('supertest');
+// global.services = new Services();
 global.express = require('../app');
 global.logResponseBody = (res) => console.info('>=== ResponseBody ===<\n', res.body, '\n======================\n');
 const modelBoot = require('../boostrap/models');
