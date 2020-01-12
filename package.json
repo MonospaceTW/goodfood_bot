@@ -23,16 +23,16 @@
     "firebase-admin": "^5.13.1",
     "istanbul": "^0.4.5",
     "lodash": "^4.17.13",
-    "morgan": "^1.7.0",
+    "morgan": "^1.9.1",
     "mysql": "^2.15.0",
     "mysql2": "^1.5.3",
     "nodemon": "^1.14.10",
     "pg": "^6.1.0",
-    "sequelize": "^4.38.0",
+    "sequelize": "^4.44.3",
     "serve-favicon": "~2.5.0",
     "sqlite3": "^4.0.2",
     "swagger-tools": "^0.10.4",
-    "swagger-ui": "^3.23.11"
+    "swagger-ui": "^3.24.3"
   },
   "devDependencies": {
     "cross-env": "^5.2.0",
