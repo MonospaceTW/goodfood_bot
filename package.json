@@ -32,7 +32,7 @@
     "serve-favicon": "~2.5.0",
     "sqlite3": "^4.0.2",
     "swagger-tools": "^0.10.4",
-    "swagger-ui": "^3.17.6"
+    "swagger-ui": "^3.23.11"
   },
   "devDependencies": {
     "cross-env": "^5.2.0",
