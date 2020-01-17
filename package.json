@@ -28,7 +28,7 @@
     "mysql2": "^1.7.0",
     "nodemon": "^1.19.4",
     "pg": "^6.1.0",
-    "sequelize": "^4.44.3",
+    "sequelize": "^5.15.1",
     "serve-favicon": "~2.5.0",
     "sqlite3": "^4.1.1",
     "swagger-tools": "^0.10.4",
