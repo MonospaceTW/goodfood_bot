@@ -1,6 +1,6 @@
 'use strict';
 
-const modelName = 'User';
+const SPEC_MODEL_NAME = 'User';
 const fakeData = {
   create: {
     nickName: faker.name.findName(),
@@ -53,7 +53,7 @@ const fakeData = {
   },
 };
 
-describe(`models/${modelName}`, () => {
+describe(`models/${SPEC_MODEL_NAME}`, () => {
   before(() => {
   });
 
@@ -62,13 +62,13 @@ describe(`models/${modelName}`, () => {
 
   describe('Create model data', () => {
     it('creates a data', async () => {
-      // TODO: 
+      // TODO:
       // 1. model.create(fakeData.create)...
       // 2. use data from `fakeData.create`
-      let createdModel = null;
+      const createdModelData = await models[SPEC_MODEL_NAME].create(fakeData.create);
 
       Object.keys(fakeData.create).forEach(e => {
-        expect(createdModel[e]).to.equal(fakeData.create[e]);
+        expect(createdModelData[e]).to.equal(fakeData.create[e]);
       });
     });
   });
@@ -77,7 +77,7 @@ describe(`models/${modelName}`, () => {
     let modelDataForUpdate = null;
     before(async () => {
       // create a model data before run test
-      modelDataForUpdate = await models[modelName].create(fakeData.update);
+      modelDataForUpdate = await models[SPEC_MODEL_NAME].create(fakeData.update);
     });
 
     it('update a model with find and save', async () => {
@@ -85,10 +85,17 @@ describe(`models/${modelName}`, () => {
       // 1. use model.find(modelId === updatedModel.id) then model.save();
       // 2. use data from `fakeData.updateNewData`
       // 3. use `findAndUpdatedModel` as target, `modelDataForUpdate.id` as condition.
-      let findAndUpdatedModel = null;
+      let findAndUpdatedModelData = await models[SPEC_MODEL_NAME].findOne({
+        where: {
+          id: modelDataForUpdate.id
+        }
+      });
+      findAndUpdatedModelData.nickName = fakeData.updateNewData.nickName;
+      findAndUpdatedModelData.email = fakeData.updateNewData.email;
+      await findAndUpdatedModelData.save();
 
       Object.keys(fakeData.updateNewData).forEach(e => {
-        expect(findAndUpdatedModel[e]).to.equal(fakeData.updateNewData[e]);
+        expect(findAndUpdatedModelData[e]).to.equal(fakeData.updateNewData[e]);
       });
     });
 
@@ -96,31 +103,39 @@ describe(`models/${modelName}`, () => {
       // TODO:
       // 1. use model.update()...
       // 2. use data from `fakeData.updateNewData2`
-      // 3. use `updateModel` as target, `modelDataForUpdate.id` as condition.
-      let updateModel = null;
+      // 3. use `updateModelData` as target, `modelDataForUpdate.id` as condition.
+      const updateModelData = await modelDataForUpdate.update(fakeData.updateNewData2, {
+        where: {
+          id: modelDataForUpdate.id
+        }
+      });
 
       Object.keys(fakeData.updateNewData2).forEach(e => {
-        expect(updateModel[e]).to.equal(fakeData.updateNewData2[e]);
+        expect(updateModelData[e]).to.equal(fakeData.updateNewData2[e]);
       });
     });
   });
 
   describe('Find one model data', () => {
-    let modelDateForFind = null;
+    let modelDataForFind = null;
     before(async () => {
       // create a model before run test
-      modelDateForFind = await models[modelName].create(fakeData.findOne);
+      modelDataForFind = await models[SPEC_MODEL_NAME].create(fakeData.findOne);
     });
 
     it('find a model with findOne', async () => {
       // TODO:
       // 1. use model.findOne...
       // 2. use data from `fakeData.findOne`
-      // 3. use `findModel` as target, `modelDateForFind.id` as option.
-      let findModel = null;
+      // 3. use `findModelData` as target, `modelDataForFind.id` as option.
+      const findModelData = await models[SPEC_MODEL_NAME].findOne({
+        where: {
+          id: modelDataForFind.id
+        }
+      });
 
       Object.keys(fakeData.findOne).forEach(e => {
-        expect(findModel[e]).to.equal(fakeData.findOne[e]);
+        expect(findModelData[e]).to.equal(fakeData.findOne[e]);
       });
     });
   });
@@ -128,31 +143,35 @@ describe(`models/${modelName}`, () => {
   describe('Find all model data', () => {
     before(async () => {
       // create 3 models and push into models array.
-      // await models[modelName].create(data1);
-      await models[modelName].bulkCreate(fakeData.findAll);
+      // await models[SPEC_MODEL_NAME].create(data1);
+      await models[SPEC_MODEL_NAME].bulkCreate(fakeData.findAll);
     });
 
     it('find all model', async () => {
       // TODO:
       // 1. use model.findAll...
       // 2. use data from `fakeData.findAll`
-      // 3. use `findAllModel` as target.
-      let findAllModel = null;
+      // 3. use `findAllModelData` as target.
+      const findAllModelData = await models[SPEC_MODEL_NAME].findAll();
 
-      expect(findAllModel.length).to.greaterThan(fakeData.findAll.length - 1);
+      expect(findAllModelData.length).to.greaterThan(fakeData.findAll.length - 1);
     });
 
     it('find all with where', async () => {
       // TODO:
       // 1. use model.findAll...
       // 2. use data from `fakeData.findAll`
-      // 3. use `findAllModel` as target, and use `fakeData.keyword` as option.
-      let findAllModel = null;
-
-      expect(findAllModel.length).to.greaterThan(fakeData.findAll.length - 1);
-      Object.keys(fakeData.findAll).forEach(e => {
-        expect(findAllModel[e]).to.equal(fakeData.findAll[e]);
+      // 3. use `findAllModelData` as target, and use `fakeData.keyword` as option.
+      const findAllModelData = await models[SPEC_MODEL_NAME].findAll({
+        where: {
+          nickName: fakeData.keyword.nickName
+        }
       });
+
+      expect(findAllModelData.length).to.greaterThan(fakeData.findAll.length - 1);
+      for (const index in findAllModelData) {
+        expect(findAllModelData[index].nickName).to.equal(fakeData.findAll[0].nickName);
+      }
     });
   });
 
@@ -160,18 +179,28 @@ describe(`models/${modelName}`, () => {
     let modelDataForDestroy = null;
     before(async () => {
       // create data before run test
-      modelDataForDestroy = await models[modelName].create(fakeData.destroy);
+      modelDataForDestroy = await models[SPEC_MODEL_NAME].create(fakeData.destroy);
     });
 
     it('delete a model data with where', async () => {
       // TODO:
       // 1. use model.destroy...
       // 2. use data from `fakeData.findAll`
-      // 3. use `findAllModel` as target, and use `modelDataForDestroy.id` as option.
-      let deleteModel = null;
-      let findDeleteModel = null;
-      expect(deleteModel).to.equal(1);
-      expect(findDeleteModel).to.equal(null);
+      // 3. use `deleteModelData` as target, and use `modelDataForDestroy.id` as option.
+      const deleteModelData = await models[SPEC_MODEL_NAME].destroy({
+        where: {
+          id: modelDataForDestroy.id
+        }
+      });
+
+      const findDeletedModel = await models[SPEC_MODEL_NAME].findOne({
+        where: {
+          id: modelDataForDestroy.id
+        }
+      });
+
+      expect(deleteModelData).to.equal(1);
+      expect(findDeletedModel).to.equal(null);
     });
   });
 
@@ -197,10 +226,16 @@ describe(`models/${modelName}`, () => {
         passwordHash: 'ws3ws3ws3',
         provider: 'local',
       }];
-      let user = null;
 
-      expect(user.nickName).to.be.equal(fakeData.create.nickName);
-      expect(user.email).to.be.equal(fakeData.create.email);
+      const user = await models[SPEC_MODEL_NAME].create({
+        ...fakeData.create2,
+        Passports: data
+      }, {
+        include: [models.Passport]
+      });
+
+      expect(user.nickName).to.be.equal(fakeData.create2.nickName);
+      expect(user.email).to.be.equal(fakeData.create2.email);
       expect(user.Passports.length).to.equal(data.length);
     });
 
@@ -213,13 +248,30 @@ describe(`models/${modelName}`, () => {
         token: '1',
         workspaceName: 'ws1',
         passwordHash: 'ws1ws1ws1',
+        provider: 'local',
       };
-      let user = null;
-      let passport = null;
-      let userWithPassport = null;
 
-      expect(userWithPassport.nickName).to.be.equal(fakeData.create.nickName);
-      expect(userWithPassport.email).to.be.equal(fakeData.create.email);
+      let user = await models[SPEC_MODEL_NAME].create({
+        ...fakeData.create3,
+        Passports: data
+      }, {
+        include: [models.Passport]
+      });
+
+      const passport = await models.Passport.create(data);
+      await user.setPassports(passport);
+
+      const userWithPassport = await models[SPEC_MODEL_NAME].findOne(
+        {
+          where: fakeData.create3,
+          include: [models.Passport],
+
+        }
+      );
+      console.log('userWithPassport.passwordHash=>', userWithPassport.Passports[0].passwordHash);
+
+      expect(userWithPassport.nickName).to.be.equal(fakeData.create3.nickName);
+      expect(userWithPassport.email).to.be.equal(fakeData.create3.email);
       expect(userWithPassport.Passports.length).to.equal(1);
       expect(userWithPassport.Passports[0].token).to.equal(data.token);
       expect(userWithPassport.Passports[0].workspaceName).to.equal(data.workspaceName);
